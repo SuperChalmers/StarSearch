@@ -1,0 +1,49 @@
+Id,Name,Shape Library,Page ID,Contained By,Group,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1,Text Area 2,Text Area 3
+1,Page,,,,,,,,,UML Class,,
+2,Class,UML,1,,,,,,,SimulationSystem,"- turnCounter: Integer
+- maxTurns: Integer
+- dronesLeft: Integer
+- spaceExplored: Integer
+- maxSpaceExplorable: Integer","+ isSimulationOver(): Boolean
++ getSimulationSummary(): String
++ checkCoordinates(Coordinates) : Space
++ performTurn()
+- performAction(Action)"
+3,Text,Standard,1,,19,,,,,Class Diagram (UML 2.0),,
+4,Text,Standard,1,,19,,,,,"Achinthya Soordelu   |  January 21, 2020",,
+5,Class,UML,1,,,,,,,Drone,- orientation: String,"+ act() : DroneAction
+- steer(orientation: String)
+- thrust(numSpaces: Integer) : DroneAction
+- scan() : DroneAction
+- pass()
++ updatePosition(Coordinates)
+- isSpaceSafe(Space): Boolean"
+6,Class,UML,1,,,,,,,Coordinates,"- height: Integer
+- width: Integer",
+7,Class,UML,1,,,,,,,MoveResult,"- newlyExplored: Boolean
+- contents: String",
+8,Class,UML,1,,,,,,,DroneAction,"- action: String
+- orientation: String",
+9,Class,UML,1,,,,,,,Region,"- space: Map<Coordinates, Space>
+- maxWidth: Integer
+- maxHeight: Integer","+ scanAroundCoordinates(Coordinates): List<String>
++ moveEntity(orientation: String): MoveResult
++ getSpace(Coordinates): Space"
+10,Class,UML,1,,,,,,,Space,"- content: String
+- drone: Boolean
+- explored: Boolean
+- known: Boolean","+ containsDrone(): Boolean
++ setDrone(Boolean)
++ isExplored(): Boolean
++ setExplored(Boolean)
++ isKnown(): Boolean
++ setKnown(Boolean)"
+11,Line,,1,,19,3,3,None,None,,,
+12,Line,,1,,,5,2,None,None,1..*,1,
+13,Line,,1,,,9,2,None,None,1,1,
+14,Line,,1,,,10,9,None,Composition,1..*,1,
+15,Line,,1,,,6,5,None,Composition,1,1,
+16,Line,,1,,,6,8,None,Composition,1,1,
+17,Line,,1,,,6,7,None,Composition,1,1,
+18,Line,,1,,,6,10,None,Composition,1,1,
+19,Group 1,,1,,,,,,,,,

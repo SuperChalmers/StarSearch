@@ -1,0 +1,67 @@
+title Drone Action Sequence Diagram (UML 2.0)
+
+loop i < 8 
+Drone-> SimulationSystem: checkCoordinates(Coordinates)
+SimulationSystem->Region: getSpace(Coordinates)
+Region->SimulationSystem: Space
+
+#Initial info collect stage
+alt space.isKnown() = true
+SimulationSystem->Drone: Space
+else space.isKnown() = false
+SimulationSystem->Drone: new Space("Unknown")
+end
+end
+
+alt > 0 Adjacent Spaces Unknown
+Drone->SimulationSystem:act(DroneAction(scan))
+loop i < 8
+SimulationSystem->Region: markAsKnown(Coordinates)
+note right of SimulationSystem: Drone gets knowledge of surroundings and auto-shares, modeled by marking the Space as known
+end
+else All adjacent Spaces are known and Space in chosen direction is safe
+    Drone-> SimulationSystem: checkCoordinates(Coordinates)
+    note right of Drone: Current Position + 2 in chosen direction
+    SimulationSystem->Region: getSpace(Coordinates)
+    Region->SimulationSystem: Space
+    alt space.isKnown() = true
+    SimulationSystem->Drone: Space
+    else space.isKnown() = false
+    SimulationSystem->Drone: new Space("Unknown")
+    end
+    alt if Space at Current Position + 2 in chosen direction is safe
+        Drone-> SimulationSystem: checkCoordinates(Coordinates)
+        note right of Drone: Current Position + 3 in chosen direction
+        SimulationSystem->Region: getSpace(Coordinates)
+        Region->SimulationSystem: Space
+        alt space.isKnown() = true
+        SimulationSystem->Drone: Space
+        else space.isKnown() = false
+        SimulationSystem->Drone: new Space("Unknown")
+        end
+        alt if Space at Current Position + 3 in chosen direction is safe
+            Drone->SimulationSystem:act(DroneAction(thrust(3)))
+            loop i < 3
+            SimulationSystem->Region:markAsExplored(Coordinates)
+            note right of SimulationSystem: Space is also marked as known in this method, since explored spaces are known
+            end
+            SimulationSystem->Region:markAsDrone(Coordinates)
+        else if Space at Current Position + 3 in chosen direction is not safe
+            Drone->SimulationSystem:act(DroneAction(thrust(2)))
+            loop i < 2
+            SimulationSystem->Region:markAsExplored(Coordinates)
+            end
+            SimulationSystem->Region:markAsDrone(Coordinates)
+        end
+    else if Space at Current Position + 2 in chosen direction is not safe
+        Drone->SimulationSystem:act(DroneAction(thrust(1)))
+        SimulationSystem->Region:markAsExplored(Coordinates)
+        SimulationSystem->Region:markAsDrone(Coordinates)
+    end
+else All Spaces Known and Drone Facing Unsafe Space
+    alt Safe Space available in adjacent spaces
+        Drone->SimulationSystem:act(DroneAction(steer(Direction of first where isSafeSpace(Space)==true in set of adjacent Spaces)))
+    end
+else
+    Drone->SimulationSystem:act(DroneAction(pass))
+end
