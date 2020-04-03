@@ -1,4 +1,6 @@
 title Drone Action Sequence Diagram (UML 2.0)
+Main -> SimulationSystem: startSimulation()
+SimulationSystem->Drone: pollForAction()
 
 loop i < 8 
 Drone-> SimulationSystem: checkCoordinates(Coordinates)
@@ -65,3 +67,4 @@ else All Spaces Known and Drone Facing Unsafe Space
 else
     Drone->SimulationSystem:act(DroneAction(pass))
 end
+SimulationSystem -> Main : SimulationSummary
