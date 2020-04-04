@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { Button, ButtonGroup, Form, Dropdown } from 'react-bootstrap';
-
+import history from './../history';
 import './Setup.scss';
 
 class Setup extends React.Component<any, any> {
+    goToSimulation() {
+        history.push('/Simulation');
+    }
+
     render() {
         return (
             <div>
@@ -103,11 +107,13 @@ class Setup extends React.Component<any, any> {
 
                 <div className="block">
                     <div className="row">
-                        <Button variant="primary" size="lg">START</Button>
+                        <Button variant="primary" size="lg" onClick={this.goToSimulation}>
+                            START
+                        </Button>
                     </div>
 
                 </div>
-            </div >
+            </div>
         );
     }
 }
