@@ -12,16 +12,16 @@ class SimulationTable extends React.Component<any, any> {
         return (
             <div id="simulation-table">
                 <h1>Space Simulation {this.props.simulationNumber}</h1>
-                <Table striped bordered hover className="space-state">
+                <Table bordered className="space-state">
                     <tbody>
                         <tr>
-                            <td><Rocket></Rocket></td>
+                            <td><Rocket direction="north" active={false}></Rocket></td>
                             <td><Sun></Sun></td>
                             <td><Starfield></Starfield></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td><Rocket direction="south" active={true}></Rocket></td>
                             <td></td>
                             <td></td>
                             <td></td>
