@@ -23,6 +23,7 @@ public class Drone {
     @NonNull private Coordinates coordinates;
     @NonNull private Boolean toDelete;
     @NonNull private Integer strategy;
+    @NonNull private Integer fuel;
 
     public DroneAction act(SimulationAccessor simulationAccessor) {
         if (strategy == 0) {
@@ -31,6 +32,16 @@ public class Drone {
             return getIntelligentAction(simulationAccessor);
         }
         return DroneAction.builder().action(Action.PASS).build();
+    }
+
+    public boolean checkFuel(int fuelNeeded){
+        if (fuel-fuelNeeded<0) return false;
+        fuel -= fuelNeeded;
+        return true;
+    }
+
+    public void charge(int fuelCharged){
+        fuel += fuelCharged;
     }
 
     private DroneAction getRandomAction() {

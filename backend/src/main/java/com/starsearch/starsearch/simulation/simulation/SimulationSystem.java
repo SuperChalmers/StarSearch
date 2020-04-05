@@ -32,31 +32,43 @@ public class SimulationSystem {
 
     @Getter
     @NonNull private List<Drone> drones;
+    @NonNull private Integer chargeRate;
+    @NonNull private Integer gallonsPerThrust;
+    @NonNull private Integer gallonsPerSteer;
+    @NonNull private Integer gallonsPerScan;
+    @NonNull private Integer gallonsPerPass;
 
     public SimulationSummary runSimulation() {
         SimulationAccessor simulationAccessor = new SimulationAccessor(this);
         do {
             for (Iterator<Drone> iterator = drones.iterator(); iterator.hasNext();) {
                 Drone drone = iterator.next();
-                if (drone.getToDelete()) {
+                if (drone.getToDelete() || drone.getFuel()<=0) {
                     iterator.remove();
                     continue;
                 }
                 DroneAction action = drone.act(simulationAccessor);
                 System.out.print(drone.getDroneID());
                 if (action.getAction().equals(Action.SCAN)) {
+                    if (!drone.checkFuel(gallonsPerScan)) continue;
                     System.out.print(",scan");
                     region.scanAroundCoordinates(action.getCoordinates());
                 } else if (actionIsThrust(action.getAction())) {
+                    if (!drone.checkFuel(gallonsPerThrust)) continue;
                     handleThrust(drone, action);
                 } else if (Action.STEER.equals(action.getAction())) {
+                    if (!drone.checkFuel(gallonsPerSteer)) continue;
                     System.out.print(",steer," + OrientationCoordinateOffsets.getDirectionFromOrientation(drone.getOrientation()));
                     System.out.println("\nok");
                 } else if (Action.PASS.equals(action.getAction())) {
+                    if (!drone.checkFuel(gallonsPerPass)) continue;
                     System.out.print(",pass");
                     System.out.println("\nok");
                 } else {
                     System.out.println("crash"); //Crash for invalid command, steer with invalid direction, etc.
+                }
+                if (droneCloseToSun(drone)){
+                    drone.charge(chargeRate);
                 }
             }
         } while (simulationIsNotOver());
@@ -66,6 +78,14 @@ public class SimulationSystem {
                 .numberOfSafeSquares(maxSpaceExplorable)
                 .sizeOfRegion(region.getMaxHeight() * region.getMaxWidth())
                 .build();
+    }
+
+    private boolean droneCloseToSun(Drone drone) {
+        List<Space> neighborSpaces = region.scanAroundCoordinates(drone.getCoordinates());
+        for(Space neighborSpace : neighborSpaces){
+            if (neighborSpace.getContents().equals(Contents.SUN)) return true;
+        }
+        return false;
     }
 
     private void handleThrust(Drone drone, DroneAction action) {
