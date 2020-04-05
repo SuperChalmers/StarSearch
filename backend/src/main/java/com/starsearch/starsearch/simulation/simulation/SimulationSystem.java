@@ -48,20 +48,17 @@ public class SimulationSystem {
                     continue;
                 }
                 DroneAction action = drone.act(simulationAccessor);
+                if (!checkFuel(action, drone)) continue;
                 System.out.print(drone.getDroneID());
                 if (action.getAction().equals(Action.SCAN)) {
-                    if (!drone.checkFuel(gallonsPerScan)) continue;
                     System.out.print(",scan");
                     region.scanAroundCoordinates(action.getCoordinates());
                 } else if (actionIsThrust(action.getAction())) {
-                    if (!drone.checkFuel(gallonsPerThrust)) continue;
                     handleThrust(drone, action);
                 } else if (Action.STEER.equals(action.getAction())) {
-                    if (!drone.checkFuel(gallonsPerSteer)) continue;
                     System.out.print(",steer," + OrientationCoordinateOffsets.getDirectionFromOrientation(drone.getOrientation()));
                     System.out.println("\nok");
                 } else if (Action.PASS.equals(action.getAction())) {
-                    if (!drone.checkFuel(gallonsPerPass)) continue;
                     System.out.print(",pass");
                     System.out.println("\nok");
                 } else {
@@ -78,6 +75,20 @@ public class SimulationSystem {
                 .numberOfSafeSquares(maxSpaceExplorable)
                 .sizeOfRegion(region.getMaxHeight() * region.getMaxWidth())
                 .build();
+    }
+
+    private boolean checkFuel(DroneAction action, Drone drone){
+        if (action.getAction().equals(Action.SCAN)) {
+            return drone.checkFuel(gallonsPerScan);
+        } else if (actionIsThrust(action.getAction())) {
+            return drone.checkFuel(gallonsPerThrust);
+        } else if (Action.STEER.equals(action.getAction())) {
+            return drone.checkFuel(gallonsPerSteer);
+        } else if (Action.PASS.equals(action.getAction())) {
+            return drone.checkFuel(gallonsPerPass);
+        } else {
+            return true;
+        }
     }
 
     private boolean droneCloseToSun(Drone drone) {
