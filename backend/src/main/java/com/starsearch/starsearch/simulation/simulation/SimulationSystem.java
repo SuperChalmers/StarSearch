@@ -29,6 +29,8 @@ public class SimulationSystem {
     @NonNull private Integer turnCounter;
     @NonNull private Integer maxSpaceExplorable;
     @NonNull private Integer spaceExplored;
+
+    @Getter
     @NonNull private List<Drone> drones;
 
     public SimulationSummary runSimulation() {
