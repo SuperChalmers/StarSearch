@@ -11,6 +11,7 @@ import com.starsearch.starsearch.simulation.utils.OrientationCoordinateOffsets;
 import com.starsearch.starsearch.simulation.simulation.SimulationSystem;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +20,7 @@ public class FileProcessor {
 
     private static final String DELIMITER = ",";
 
-    public static SimulationSystem createSimulation(String testFileName) throws Exception {
+    public static SimulationSystem createSimulation(String testFileName) throws FileNotFoundException {
 
         try {
             Scanner inputFile = new Scanner(new File(testFileName));
@@ -38,7 +39,7 @@ public class FileProcessor {
                     .spaceExplored(drones.size())
                     .turnCounter(0)
                     .build();
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             throw e;
         }

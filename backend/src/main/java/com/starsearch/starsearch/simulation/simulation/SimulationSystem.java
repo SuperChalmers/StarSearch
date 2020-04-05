@@ -10,6 +10,7 @@ import com.starsearch.starsearch.simulation.utils.Coordinates;
 import com.starsearch.starsearch.simulation.utils.MoveResult;
 import com.starsearch.starsearch.simulation.utils.OrientationCoordinateOffsets;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SimulationSystem {
 
-    @NonNull private Region region;
+    @Getter
+    @NonNull
+    private Region region;
+
     @NonNull private Integer maxTurns;
     @NonNull private Integer turnCounter;
     @NonNull private Integer maxSpaceExplorable;
