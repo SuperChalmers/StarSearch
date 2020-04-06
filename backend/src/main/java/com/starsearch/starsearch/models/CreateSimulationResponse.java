@@ -15,5 +15,5 @@ public class CreateSimulationResponse {
     private final int height;
     private final int width;
     private final List<Drone> drones;
-    private final Map<Coordinates, Space> spaceMap;
+    private final List<Space> spaceMap;
 }
