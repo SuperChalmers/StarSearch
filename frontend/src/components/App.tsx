@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import SimulationTable from './SimulationTable/SimulationTable';
 import Home from './Home/Home';
 import Setup from './Setup/Setup';
+import Simulation from './Simulation/Simulation';
 import history from './history';
 import { Container } from 'react-bootstrap';
 import { Router, Switch, Route } from 'react-router-dom';
@@ -13,7 +13,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/Setup" exact component={Setup} />
-        <Route path="/Simulation" exact component={SimulationTable} />
+        <Route path="/Simulation" exact component={Simulation} />
 
         {/*
         <Container>

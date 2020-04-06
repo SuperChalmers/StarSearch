@@ -1,0 +1,103 @@
+#simulation-table {
+    // td { display: block; float: left; border: 1px solid black; width: 32%; padding-bottom: 32%; }
+    // td div { position: absolute }
+    // table { display: block; width: 100%; }
+    // tr { display: block; width: 100%; }
+    // tbody { display: block; width: 100%; }
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+// top half (simulation table)
+.blockTable {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    width: 750px;
+}
+
+// bottom half
+.blockActions {
+    display: flex;
+    justify-content: start;
+    width: 750px;
+}
+
+// action input column of .blockActions
+.colActionInput {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: start;
+    margin: 3%;
+}
+
+// action column of .blockActions
+.colAction {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: start;
+    margin: 3%;
+}
+
+// right column of .blockActions
+.colStop {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: start;
+    margin: 3%;
+}
+
+// report section of .colRight
+.report {
+    width: 100%;
+    display: flex;
+}
+
+.reportHeader {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.reportValues {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 2%;
+}
+
+.button {
+    width: 100%;
+    margin: 10px;
+}
+
+.buttonStop {
+    width: 75%;
+    margin: 10px;
+}
+
+.textInput {
+    width: 100%;
+    margin: 15px;
+}
+
+.checkBox {
+    margin: 25px;
+}
+
+.text {
+
+}
