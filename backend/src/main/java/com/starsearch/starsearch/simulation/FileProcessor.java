@@ -25,8 +25,10 @@ public class FileProcessor {
         try {
             Scanner inputFile = new Scanner(new File(testFileName));
             Region region = createRegion(inputFile);
-            List<Drone> drones = createDrones(inputFile, region);
-            createSuns(inputFile, region);;
+            //todo:fuel need to pass the below values from the frontend.
+            int chargeRate = 2, initialFuel = 10, gallonsPerThrust = 3, gallonsPerSteer = 2, gallonsPerScan = 1, gallonsPerPass = 0;
+            List<Drone> drones = createDrones(inputFile, region, initialFuel);
+            createSuns(inputFile, region);
 
             String[] tokens = inputFile.nextLine().split(DELIMITER);
             int turnLimit = Integer.parseInt(tokens[0]);
@@ -38,6 +40,11 @@ public class FileProcessor {
                     .region(region)
                     .spaceExplored(drones.size())
                     .turnCounter(0)
+                    .chargeRate(chargeRate)
+                    .gallonsPerThrust(gallonsPerThrust)
+                    .gallonsPerSteer(gallonsPerSteer)
+                    .gallonsPerScan(gallonsPerScan)
+                    .gallonsPerPass(gallonsPerPass)
                     .build();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -53,7 +60,7 @@ public class FileProcessor {
         return new Region(maxWidth, maxHeight);
     }
 
-    private static List<Drone> createDrones(Scanner inputFile, Region region) {
+    private static List<Drone> createDrones(Scanner inputFile, Region region, int initialFuel) {
         List<Drone> drones = new ArrayList<>();
         String[] tokens = inputFile.nextLine().split(DELIMITER);
         int numberOfDrones = Integer.parseInt(tokens[0]);
@@ -69,6 +76,7 @@ public class FileProcessor {
                     .droneID("d" + k)
                     .toDelete(false)
                     .strategy(Integer.parseInt(tokens[3]))
+                    .fuel(initialFuel)
                     .build());
 
             Space droneSpace = region.getSpace(coordinates);

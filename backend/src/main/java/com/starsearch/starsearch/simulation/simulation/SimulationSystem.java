@@ -32,17 +32,23 @@ public class SimulationSystem {
 
     @Getter
     @NonNull private List<Drone> drones;
+    @NonNull private Integer chargeRate;
+    @NonNull private Integer gallonsPerThrust;
+    @NonNull private Integer gallonsPerSteer;
+    @NonNull private Integer gallonsPerScan;
+    @NonNull private Integer gallonsPerPass;
 
     public SimulationSummary runSimulation() {
         SimulationAccessor simulationAccessor = new SimulationAccessor(this);
         do {
             for (Iterator<Drone> iterator = drones.iterator(); iterator.hasNext();) {
                 Drone drone = iterator.next();
-                if (drone.getToDelete()) {
+                if (drone.getToDelete() || drone.getFuel()<=0) {
                     iterator.remove();
                     continue;
                 }
                 DroneAction action = drone.act(simulationAccessor);
+                if (!checkFuel(action, drone)) continue;
                 System.out.print(drone.getDroneID());
                 if (action.getAction().equals(Action.SCAN)) {
                     System.out.print(",scan");
@@ -58,6 +64,9 @@ public class SimulationSystem {
                 } else {
                     System.out.println("crash"); //Crash for invalid command, steer with invalid direction, etc.
                 }
+                if (droneCloseToSun(drone)){
+                    drone.charge(chargeRate);
+                }
             }
         } while (simulationIsNotOver());
         return SimulationSummary.builder()
@@ -66,6 +75,28 @@ public class SimulationSystem {
                 .numberOfSafeSquares(maxSpaceExplorable)
                 .sizeOfRegion(region.getMaxHeight() * region.getMaxWidth())
                 .build();
+    }
+
+    private boolean checkFuel(DroneAction action, Drone drone){
+        if (action.getAction().equals(Action.SCAN)) {
+            return drone.checkFuel(gallonsPerScan);
+        } else if (actionIsThrust(action.getAction())) {
+            return drone.checkFuel(gallonsPerThrust);
+        } else if (Action.STEER.equals(action.getAction())) {
+            return drone.checkFuel(gallonsPerSteer);
+        } else if (Action.PASS.equals(action.getAction())) {
+            return drone.checkFuel(gallonsPerPass);
+        } else {
+            return true;
+        }
+    }
+
+    private boolean droneCloseToSun(Drone drone) {
+        List<Space> neighborSpaces = region.scanAroundCoordinates(drone.getCoordinates());
+        for(Space neighborSpace : neighborSpaces){
+            if (neighborSpace.getContents().equals(Contents.SUN)) return true;
+        }
+        return false;
     }
 
     private void handleThrust(Drone drone, DroneAction action) {
