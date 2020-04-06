@@ -17,12 +17,13 @@ public class CreateSimulationController {
 
     @PostMapping(value="/simulation", consumes = "application/json", produces = "application/json")
     public CreateSimulationResponse createSimulation(@RequestBody CreateSimulationRequest request) throws FileNotFoundException {
+        //TODO fuel handling
         SimulationSystem simulationSystem = FileProcessor.createSimulation(request.getScenarioFile());
         Region region = simulationSystem.getRegion();
         return CreateSimulationResponse.builder()
                 .height(region.getMaxHeight())
                 .width(region.getMaxWidth())
-                .suns(region.getSuns())
+                .spaceMap(region.getSpaceMap())
                 .drones(simulationSystem.getDrones())
                 .build();
     }

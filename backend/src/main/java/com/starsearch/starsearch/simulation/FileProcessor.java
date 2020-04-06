@@ -26,14 +26,14 @@ public class FileProcessor {
             Scanner inputFile = new Scanner(new File(testFileName));
             Region region = createRegion(inputFile);
             List<Drone> drones = createDrones(inputFile, region);
-            region.setSuns(createSuns(inputFile, region));
+            createSuns(inputFile, region);;
 
             String[] tokens = inputFile.nextLine().split(DELIMITER);
             int turnLimit = Integer.parseInt(tokens[0]);
             inputFile.close();
             return SimulationSystem.builder()
                     .drones(drones)
-                    .maxSpaceExplorable(region.getSpaceMap().size() - region.getSuns().size())
+                    .maxSpaceExplorable(region.getSpaceMap().size() - region.getNumberOfSuns())
                     .maxTurns(turnLimit)
                     .region(region)
                     .spaceExplored(drones.size())
@@ -80,16 +80,13 @@ public class FileProcessor {
         return drones;
     }
 
-    private static List<Coordinates> createSuns(Scanner inputFile, Region region) {
+    private static void createSuns(Scanner inputFile, Region region) {
         String[] tokens = inputFile.nextLine().split(DELIMITER);
-        List<Coordinates> suns = new ArrayList<>();
-        int numberOfSuns = Integer.parseInt(tokens[0]);
-        for (int k = 0; k < numberOfSuns; k++) {
+        region.setNumberOfSuns(Integer.parseInt(tokens[0]));
+        for (int k = 0; k < region.getNumberOfSuns(); k++) {
             tokens = inputFile.nextLine().split(DELIMITER);
             Coordinates coordinates = new Coordinates(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
             region.getSpace(coordinates).setContents(Contents.SUN);
-            suns.add(coordinates);
         }
-        return suns;
     }
 }

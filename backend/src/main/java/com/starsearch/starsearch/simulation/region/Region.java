@@ -14,9 +14,9 @@ import java.util.Map;
 @Data
 public class Region {
     private Map<Coordinates, Space> spaceMap;
-    private List<Coordinates> suns;
     @NonNull private Integer maxWidth;
     @NonNull private Integer maxHeight;
+    private Integer numberOfSuns = 0;
 
     public Region(int maxWidth, int maxHeight) {
         this.maxWidth = maxWidth;
