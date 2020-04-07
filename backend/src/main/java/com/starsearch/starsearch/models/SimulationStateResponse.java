@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Data
 @Builder
-public class CreateSimulationResponse {
+public class SimulationStateResponse {
     private final int height;
     private final int width;
     private final List<Drone> drones;
