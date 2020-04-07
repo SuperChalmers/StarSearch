@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Iterator;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.File;
 
 @Builder
 @RequiredArgsConstructor
@@ -37,6 +39,12 @@ public class SimulationSystem {
     @NonNull private Integer gallonsPerSteer;
     @NonNull private Integer gallonsPerScan;
     @NonNull private Integer gallonsPerPass;
+
+    @NonNull private Integer saveTurn;  // which turn to stop and save automatically
+    @NonNull private List<Coordinates> suns; //Data storage to save location of suns so we don't have to parse space
+
+    private static final String DELIMITER = ",";
+
 
     public SimulationSummary runSimulation() {
         SimulationAccessor simulationAccessor = new SimulationAccessor(this);
@@ -166,5 +174,38 @@ public class SimulationSystem {
                 .contents(Contents.UNKNOWN)
                 .drone(false)
                 .build();
+    }
+
+    public void writeSimulation(String writeFilename) throws Exception{
+        try {
+            final File file = new File(writeFilename);
+            FileWriter fr = null;
+            fr = new FileWriter(file);
+            fr.write(String.valueOf(region.getMaxWidth()) + System.lineSeparator());  //write the width of the region
+            fr.write(String.valueOf(region.getMaxHeight()) + System.lineSeparator()); //write the height of the region
+            fr.write(String.valueOf(drones.size()) + System.lineSeparator()); //write the number of drones
+            for (Iterator<Drone> iterator = drones.iterator(); iterator.hasNext();) { //start writing the drone lines. each is a single line
+                Drone drone = iterator.next();
+                fr.write(String.valueOf(drone.getCoordinates().getWidth()) + DELIMITER); //write the x location
+                fr.write(String.valueOf(drone.getCoordinates().getHeight()) + DELIMITER); //write the y location
+                fr.write(OrientationCoordinateOffsets.getDirectionFromOrientation(drone.getOrientation()) + DELIMITER); //write the orientation
+                fr.write(String.valueOf(drone.getStrategy())); //write the strategy
+                fr.write(System.lineSeparator()); //finished writing the drone line
+            }
+            fr.write(String.valueOf(region.getNumberOfSuns()) + System.lineSeparator());
+            for(Iterator<Coordinates> iterator = suns.iterator(); iterator.hasNext();){
+                Coordinates sun = iterator.next();
+                fr.write(String.valueOf(sun.getWidth()) + DELIMITER + String.valueOf(sun.getHeight()) + System.lineSeparator()); //write the sun location
+            }
+            fr.write(String.valueOf(maxTurns) + System.lineSeparator()); //write max turns
+            fr.write(String.valueOf(saveTurn) + System.lineSeparator()); //write the save turn 
+            fr.write(String.valueOf(turnCounter) + System.lineSeparator()); //write the current turn
+            fr.close(); //close the file now that we're done
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } 
+
     }
 }

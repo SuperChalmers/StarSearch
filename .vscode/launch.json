@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}",
+            "args": "C:\\scenarios\\scenario0.csv -v"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-StarsearchApplication<starsearch>",
+            "request": "launch",
+            "mainClass": "com.starsearch.starsearch.StarsearchApplication",
+            "projectName": "starsearch"
+        }
+    ]
+}

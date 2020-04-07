@@ -28,10 +28,16 @@ public class FileProcessor {
             //todo:fuel need to pass the below values from the frontend.
             int chargeRate = 2, initialFuel = 10, gallonsPerThrust = 3, gallonsPerSteer = 2, gallonsPerScan = 1, gallonsPerPass = 0;
             List<Drone> drones = createDrones(inputFile, region, initialFuel);
-            createSuns(inputFile, region);
+            List<Coordinates> suns = createSuns(inputFile, region);
 
             String[] tokens = inputFile.nextLine().split(DELIMITER);
             int turnLimit = Integer.parseInt(tokens[0]);
+            
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the save turn
+            int saveTurn = Integer.parseInt(tokens[0]); //allocate the save turn value
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
+            int currentTurn = Integer.parseInt(tokens[0]);
+
             inputFile.close();
             return SimulationSystem.builder()
                     .drones(drones)
@@ -45,6 +51,9 @@ public class FileProcessor {
                     .gallonsPerSteer(gallonsPerSteer)
                     .gallonsPerScan(gallonsPerScan)
                     .gallonsPerPass(gallonsPerPass)
+                    .turnCounter(currentTurn)
+                    .saveTurn(saveTurn)
+                    .suns(suns)
                     .build();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -88,13 +97,17 @@ public class FileProcessor {
         return drones;
     }
 
-    private static void createSuns(Scanner inputFile, Region region) {
+    private static List<Coordinates> createSuns(Scanner inputFile, Region region) {
+        List<Coordinates> suns = new ArrayList<>();
         String[] tokens = inputFile.nextLine().split(DELIMITER);
         region.setNumberOfSuns(Integer.parseInt(tokens[0]));
         for (int k = 0; k < region.getNumberOfSuns(); k++) {
             tokens = inputFile.nextLine().split(DELIMITER);
             Coordinates coordinates = new Coordinates(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
             region.getSpace(coordinates).setContents(Contents.SUN);
+            suns.add(coordinates); //save the sun location so we don't need to parse space to find all of them.
         }
+        return suns;
+
     }
 }
