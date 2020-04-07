@@ -40,7 +40,7 @@ public class SimulationSystem {
     @NonNull private Integer gallonsPerScan;
     @NonNull private Integer gallonsPerPass;
 
-    @NonNull private Integer saveTurn;  // which turn to stop and save automatically
+//    @NonNull private Integer saveTurn;  // which turn to stop and save automatically
     @NonNull private List<Coordinates> suns; //Data storage to save location of suns so we don't have to parse space
 
     private static final String DELIMITER = ",";
@@ -198,8 +198,8 @@ public class SimulationSystem {
                 fr.write(String.valueOf(sun.getWidth()) + DELIMITER + String.valueOf(sun.getHeight()) + System.lineSeparator()); //write the sun location
             }
             fr.write(String.valueOf(maxTurns) + System.lineSeparator()); //write max turns
-            fr.write(String.valueOf(saveTurn) + System.lineSeparator()); //write the save turn 
-            fr.write(String.valueOf(turnCounter) + System.lineSeparator()); //write the current turn
+            //fr.write(String.valueOf(saveTurn) + System.lineSeparator()); //write the save turn 
+            //fr.write(String.valueOf(turnCounter) + System.lineSeparator()); //write the current turn
             fr.close(); //close the file now that we're done
 
         } catch (Exception e) {

@@ -33,10 +33,10 @@ public class FileProcessor {
             String[] tokens = inputFile.nextLine().split(DELIMITER);
             int turnLimit = Integer.parseInt(tokens[0]);
             
-            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the save turn
-            int saveTurn = Integer.parseInt(tokens[0]); //allocate the save turn value
-            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
-            int currentTurn = Integer.parseInt(tokens[0]);
+ //           tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the save turn
+ //           int saveTurn = Integer.parseInt(tokens[0]); //allocate the save turn value
+ //           tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
+ //           int currentTurn = Integer.parseInt(tokens[0]);
 
             inputFile.close();
             return SimulationSystem.builder()
@@ -51,8 +51,9 @@ public class FileProcessor {
                     .gallonsPerSteer(gallonsPerSteer)
                     .gallonsPerScan(gallonsPerScan)
                     .gallonsPerPass(gallonsPerPass)
-                    .turnCounter(currentTurn)
-                    .saveTurn(saveTurn)
+                    .turnCounter(0)
+ //                   .turnCounter(currentTurn)
+ //                   .saveTurn(saveTurn)
                     .suns(suns)
                     .build();
         } catch (FileNotFoundException e) {
