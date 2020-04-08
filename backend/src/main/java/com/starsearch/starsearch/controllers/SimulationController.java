@@ -6,6 +6,7 @@ import com.starsearch.starsearch.simulation.FileProcessor;
 import com.starsearch.starsearch.simulation.drone.Drone;
 import com.starsearch.starsearch.simulation.region.Region;
 import com.starsearch.starsearch.simulation.region.Space;
+import com.starsearch.starsearch.simulation.simulation.SimulationSummary;
 import com.starsearch.starsearch.simulation.simulation.SimulationSystem;
 import com.starsearch.starsearch.simulation.utils.Coordinates;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,19 @@ import java.util.List;
 @RestController
 public class SimulationController {
 
+    @PostMapping(value="/test")
+    public void testHook(@RequestBody String filename) throws FileNotFoundException {
+        SimulationSystem simulationSystem = FileProcessor.createSimulation(filename);
+        SimulationSummary summary = simulationSystem.runSimulation();
+        System.out.println(String.valueOf(summary.getSizeOfRegion()) + ","
+                + String.valueOf(summary.getNumberOfSafeSquares()) + ","
+                + String.valueOf(summary.getNumberOfExploredSafeSquares())
+                + "," + String.valueOf(summary.getNumberOfCompleteTurnsTaken()));
+    }
+
     @PostMapping(value="/simulation", consumes = "application/json", produces = "application/json")
     public SimulationStateResponse createSimulation(@RequestBody CreateSimulationRequest request) throws FileNotFoundException {
         return createSimulationFromFile(request.getScenarioFile());
-
     }
 
     @GetMapping(value="/simulation")

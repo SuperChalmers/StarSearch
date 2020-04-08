@@ -5,6 +5,9 @@ import './Simulation.scss';
 import Rocket from '../Rocket/Rocket';
 import Sun from '../Sun/Sun';
 import Starfield from '../Starfield/Starfield';
+import * as SimulationRequest from '../../requests/Simulation';
+import { convertSimulationResponse } from '../../helper/helpers';
+import { Simulation as SimulationModel } from '../../Models/Simulation';
 
 class Simulation extends React.Component<any, any> {
 
@@ -19,8 +22,85 @@ class Simulation extends React.Component<any, any> {
             height: '',
             safeSquares: '',
             exploredSquares: '',
-            turnsTaken: ''
+            turnsTaken: '',
+            simulation: {}
         };
+    }
+
+    // componentDidUpdate() {
+    //     this.updateSimulationState();
+    // }
+
+    componentDidMount() {
+        this.updateSimulationState();
+    }
+
+    updateSimulationState = async () => {
+        // Stub for rest request.
+        var stub = {
+            id: "123",
+            height: 4,
+            width: 5,
+            drones: [
+                {
+                    droneID: "d0",
+                    orientation: "N",
+                    coordinates: {
+                        width: 1,
+                        height: 2
+                    },
+                    strategy: 0
+                }
+            ],
+            spaceMap: [
+                {
+                    coordinates: {
+                        width: 0,
+                        height: 0
+                    },
+                    contents: "STARS",
+                    drone: false,
+                    isExplored: false,
+                    isKnown: false
+                },
+                {
+                    coordinates: {
+                        width: 0,
+                        height: 1
+                    },
+                    contents: "STARS",
+                    drone: false,
+                    isExplored: false,
+                    isKnown: false
+                },
+                {
+                    coordinates: {
+                        width: 1,
+                        height: 1
+                    },
+                    contents: "STARS",
+                    drone: false,
+                    isExplored: false,
+                    isKnown: false
+                },
+                {
+                    coordinates: {
+                        width: 1,
+                        height: 0
+                    },
+                    contents: "STARS",
+                    drone: false,
+                    isExplored: false,
+                    isKnown: false
+                }
+            ]
+        }
+
+        var simulationArray = convertSimulationResponse(stub);
+        var simulation = new SimulationModel(stub.id, simulationArray)
+        this.setState({
+            simulation: simulation
+        })
     }
 
     handleActionChange = (event: any) => {
@@ -32,8 +112,8 @@ class Simulation extends React.Component<any, any> {
         });
     }
 
-    handleStopSimulation = () => {
-        // TODO: function to stop simulation 
+    handleStopSimulation = async () => {
+        await SimulationRequest.halt(this.state.id);
     }
 
     displayText(props: any) {
@@ -45,6 +125,26 @@ class Simulation extends React.Component<any, any> {
     }
 
     render() {
+        const spaceGrid = [];
+        if(this.state.simulation.space) {
+            for (var rowIndex = 0; rowIndex < this.state.simulation.space.height() - 1; rowIndex++) {
+                let items = [];
+    
+                // for (var columnIndex = 0; columnIndex < this.state.simulation.space.width() - 1; columnIndex++) {
+                //     this.state.simulation.space.get(columnIndex, rowIndex)
+                //     if(columnIndex = 0) {
+                //         items.push(<td key={columnIndex}>{rowIndex}</td>)
+                //     }
+                //     items.push(<td key={columnIndex + 1}>f</td>)
+                // }
+    
+                // spaceGrid.push(<tr key={rowIndex}>{items}</tr>)
+                // if(rowIndex == this.state.simulation.space.height() - 1) {
+                //     spaceGrid.push(<tr key={rowIndex}></tr>)
+                // }
+            }
+        }
+        
         return (
             <div className="page">
                 <div className="blockTable">
@@ -53,21 +153,22 @@ class Simulation extends React.Component<any, any> {
                         <Table bordered className="space-state">
                             <tbody>
                                 <tr>
+                                    <td>1</td>
                                     <td><Rocket direction="north" active={false}></Rocket></td>
                                     <td><Sun></Sun></td>
                                     <td><Starfield></Starfield></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
+                                    <td>0</td>
                                     <td><Rocket direction="south" active={true}></Rocket></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>2</td>
                                 </tr>
                             </tbody>
                         </Table>
