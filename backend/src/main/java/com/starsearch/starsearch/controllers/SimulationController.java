@@ -18,9 +18,11 @@ import java.util.List;
 @RestController
 public class SimulationController {
 
+    private SimulationSystem simulationSystem = null; //Must be initialized by one of the create routes
+
     @PostMapping(value="/test")
-    public void testHook(@RequestBody String filename) throws FileNotFoundException {
-        SimulationSystem simulationSystem = FileProcessor.createSimulation(filename);
+    public void testHook(@RequestBody final String filename) throws FileNotFoundException {
+        simulationSystem = FileProcessor.createSimulation(filename);
         SimulationSummary summary = simulationSystem.runSimulation();
         System.out.println(String.valueOf(summary.getSizeOfRegion()) + ","
                 + String.valueOf(summary.getNumberOfSafeSquares()) + ","
@@ -39,15 +41,18 @@ public class SimulationController {
         return createSimulationFromFile(saveFile);
     }
 
+    @GetMapping(value = "/simulation/next")
+    public SimulationStateResponse nextTurn() {
+        try {
+            return simulationSystem.nextTurn();
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Simulation has not been created yet.", e);
+        }
+    }
+
     private SimulationStateResponse createSimulationFromFile(final String scenarioFile) throws FileNotFoundException {
         //TODO fuel handling
-        SimulationSystem simulationSystem = FileProcessor.createSimulation(scenarioFile);
-        Region region = simulationSystem.getRegion();
-        return SimulationStateResponse.builder()
-                .height(region.getMaxHeight())
-                .width(region.getMaxWidth())
-                .spaceMap(new ArrayList<>(region.getSpaceMap().values()))
-                .drones(simulationSystem.getDrones())
-                .build();
+        simulationSystem = FileProcessor.createSimulation(scenarioFile);
+        return SimulationStateResponse.createResponseFromSimulationSystem(simulationSystem);
     }
 }

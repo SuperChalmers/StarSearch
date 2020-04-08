@@ -1,5 +1,6 @@
 package com.starsearch.starsearch.simulation.simulation;
 
+import com.starsearch.starsearch.models.SimulationStateResponse;
 import com.starsearch.starsearch.simulation.drone.Action;
 import com.starsearch.starsearch.simulation.drone.Drone;
 import com.starsearch.starsearch.simulation.drone.DroneAction;
@@ -47,6 +48,10 @@ public class SimulationSystem {
     private static final String DELIMITER = ",";
     private static final Integer FILE_VERSION = 2;
 
+    public SimulationStateResponse nextTurn() {
+        //TODO next turn logic replacing loop below
+        return SimulationStateResponse.createResponseFromSimulationSystem(this);
+    }
 
     public SimulationSummary runSimulation() {
         SimulationAccessor simulationAccessor = new SimulationAccessor(this);
