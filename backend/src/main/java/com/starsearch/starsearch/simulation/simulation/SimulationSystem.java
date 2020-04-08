@@ -45,6 +45,7 @@ public class SimulationSystem {
     @NonNull private Integer fileVersion;
 
     private static final String DELIMITER = ",";
+    private static final Integer FILE_VERSION = 2;
 
 
     public SimulationSummary runSimulation() {
@@ -199,8 +200,9 @@ public class SimulationSystem {
                 fr.write(String.valueOf(sun.getWidth()) + DELIMITER + String.valueOf(sun.getHeight()) + System.lineSeparator()); //write the sun location
             }
             fr.write(String.valueOf(maxTurns) + System.lineSeparator()); //write max turns
-            //fr.write(String.valueOf(saveTurn) + System.lineSeparator()); //write the save turn 
-            //fr.write(String.valueOf(turnCounter) + System.lineSeparator()); //write the current turn
+            fr.write(String.valueOf(FILE_VERSION) + System.lineSeparator()); //write the currenet version of the file
+            fr.write(String.valueOf(saveTurn) + System.lineSeparator()); //write the save turn 
+            fr.write(String.valueOf(turnCounter) + System.lineSeparator()); //write the current turn
             fr.close(); //close the file now that we're done
 
         } catch (Exception e) {

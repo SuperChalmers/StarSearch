@@ -60,7 +60,7 @@ public class FileProcessor {
             tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
             int currentTurn = Integer.parseInt(tokens[0]);
 
- inputFile.close();   
+            inputFile.close();   
             return SimulationSystem.builder()
                     .drones(drones)
                     .maxSpaceExplorable(region.getSpaceMap().size() - region.getNumberOfSuns())
