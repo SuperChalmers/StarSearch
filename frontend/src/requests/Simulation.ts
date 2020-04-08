@@ -19,6 +19,11 @@ export async function nextStep(simulationId: number) {
     return await axios.get(`/simulation/${simulationId}/next`);
 }
 
+// Request backend halts simulation
+export async function halt(simulationId: number) {
+    return await axios.get(`/simulation/${simulationId}/halt`);
+}
+
 // Create a simulation
 export async function createSimulation(simulation: CreateSimulationRequest) {
     return await axios.post('/simulation', simulation);
