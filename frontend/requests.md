@@ -8,6 +8,8 @@ simulation
 
 `STRATEGY_STRING`: 0 or 1, 0 = drone selects activity randomly, 1 = drone tries to pick the "best" action.
 
+`PATH_TO_FILE`: Local location of the file.
+
 ## Routes
 
 ### Simulation
@@ -23,7 +25,7 @@ Request:
     "simulation": {
         "name": "[SIMULATION_NAME]",
         "secondsDelay": 123,
-        "scenarioFile": "[FILE]",
+        "scenarioFile": "[PATH_TO_FILE]",
         "strategy": "0",
         "chargeMethod": "[METHOD_TYPE]",
         "chargeRate": 123,
@@ -342,66 +344,13 @@ Response:
 }
 ```
 
-#### List Saved Simulations
-Lists the existing simulations from the server.
+#### Execute Next Step
+Runs the next step of the simulation.
 
 Request:
-`GET /simulations`
+`GET /simulation/next`
 
 Response:
-```json
-{
-    "simulations": [
-        {
-            "id": 123,
-            "name": "[SIMULATION_NAME]"
-        },
-        {
-            "id": 123,
-            "name": "[SIMULATION_NAME]"
-        }
-    ]
-}
-```
-
-### Drone
-Drone action
-
-`PUT /drone/123`
-
-Request Thrust:
-```json
-{
-    "action": "thrust",
-    "detail": "1"
-}
-```
-
-Request Steer:
-```json
-{
-    "action": "steer",
-    "detail": "northwest"
-}
-```
-
-Request Pass:
-```json
-{
-    "action": "pass",
-    "detail": ""
-}
-```
-
-Request Scan:
-```json
-{
-    "action": "scan",
-    "detail": ""
-}
-```
-
-Response (for all actions is current state of simulation):
 ```json
 {
   "height": 2,
@@ -461,3 +410,38 @@ Response (for all actions is current state of simulation):
   ]
 }
 ```
+
+#### Stop Simulation
+Stops current simulation, allows users to reload it later.
+
+Request:
+`GET /simulation/stop`
+
+Response:
+```json
+500 Success
+```
+
+#### List Saved Simulations
+Lists the existing simulations from the server.
+
+Request:
+`GET /simulations`
+
+Response:
+```json
+{
+    "simulations": [
+        {
+            "id": 123,
+            "name": "[SIMULATION_NAME]"
+        },
+        {
+            "id": 123,
+            "name": "[SIMULATION_NAME]"
+        }
+    ]
+}
+```
+
+
