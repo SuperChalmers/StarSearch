@@ -33,27 +33,48 @@ public class FileProcessor {
             String[] tokens = inputFile.nextLine().split(DELIMITER);
             int turnLimit = Integer.parseInt(tokens[0]);
             
- //           tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the save turn
- //           int saveTurn = Integer.parseInt(tokens[0]); //allocate the save turn value
- //           tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
- //           int currentTurn = Integer.parseInt(tokens[0]);
-
-            inputFile.close();
-            return SimulationSystem.builder()
+           try {
+                tokens = inputFile.nextLine().split(DELIMITER);  //get the version of the file
+            }catch(java.util.NoSuchElementException nse){  //if the version doesn't exist, it is an old format, so only return the old format info
+                inputFile.close();
+                return SimulationSystem.builder()
                     .drones(drones)
                     .maxSpaceExplorable(region.getSpaceMap().size() - region.getNumberOfSuns())
                     .maxTurns(turnLimit)
                     .region(region)
                     .spaceExplored(drones.size())
-                    .turnCounter(0)
                     .chargeRate(chargeRate)
                     .gallonsPerThrust(gallonsPerThrust)
                     .gallonsPerSteer(gallonsPerSteer)
                     .gallonsPerScan(gallonsPerScan)
                     .gallonsPerPass(gallonsPerPass)
                     .turnCounter(0)
- //                   .turnCounter(currentTurn)
- //                   .saveTurn(saveTurn)
+                    .saveTurn(-1) //old format. No turn to save. 
+                    .fileVersion(0) //original file version is defined as 0
+                    .suns(suns)
+                    .build();
+            }
+            int fileVersion = Integer.parseInt(tokens[0]); //if the version does exist, handle it with the new file formatting
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the save turn
+            int saveTurn = Integer.parseInt(tokens[0]); //allocate the save turn value
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
+            int currentTurn = Integer.parseInt(tokens[0]);
+
+ inputFile.close();   
+            return SimulationSystem.builder()
+                    .drones(drones)
+                    .maxSpaceExplorable(region.getSpaceMap().size() - region.getNumberOfSuns())
+                    .maxTurns(turnLimit)
+                    .region(region)
+                    .spaceExplored(drones.size())
+                    .chargeRate(chargeRate)
+                    .gallonsPerThrust(gallonsPerThrust)
+                    .gallonsPerSteer(gallonsPerSteer)
+                    .gallonsPerScan(gallonsPerScan)
+                    .gallonsPerPass(gallonsPerPass)
+                    .turnCounter(currentTurn)
+                    .fileVersion(fileVersion)
+                    .saveTurn(saveTurn)
                     .suns(suns)
                     .build();
         } catch (FileNotFoundException e) {
