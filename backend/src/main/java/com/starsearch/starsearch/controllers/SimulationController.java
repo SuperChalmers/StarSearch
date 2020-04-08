@@ -50,6 +50,15 @@ public class SimulationController {
         }
     }
 
+    @GetMapping(value = "/simulation/stop")
+    public void stopSimulation() {
+        try {
+            simulationSystem.stop();
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Simulation has not been created yet.", e);
+        }
+    }
+
     private SimulationStateResponse createSimulationFromFile(final String scenarioFile) throws FileNotFoundException {
         //TODO fuel handling
         simulationSystem = FileProcessor.createSimulation(scenarioFile);

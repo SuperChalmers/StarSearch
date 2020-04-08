@@ -53,6 +53,10 @@ public class SimulationSystem {
         return SimulationStateResponse.createResponseFromSimulationSystem(this);
     }
 
+    public void stop() {
+        //TODO stop simulation in current state and output file
+    }
+
     public SimulationSummary runSimulation() {
         SimulationAccessor simulationAccessor = new SimulationAccessor(this);
         do {
