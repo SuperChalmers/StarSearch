@@ -8,9 +8,8 @@ import com.starsearch.starsearch.simulation.region.Space;
 import com.starsearch.starsearch.simulation.simulation.SimulationSystem;
 import com.starsearch.starsearch.simulation.utils.Coordinates;
 import com.starsearch.starsearch.simulation.utils.OrientationCoordinateOffsets;
-import com.starsearch.starsearch.simulation.simulation.SimulationSystem;
-
 import java.io.File;
+import java.util.NoSuchElementException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,9 @@ public class FileProcessor {
             
            try {
                 tokens = inputFile.nextLine().split(DELIMITER);  //get the version of the file
+                if(tokens[0].isEmpty()){ //empty stuff at the end of the file. Still valid old file, just need to be aware of empty stuff. 
+                    throw new NoSuchElementException();
+                }
             }catch(java.util.NoSuchElementException nse){  //if the version doesn't exist, it is an old format, so only return the old format info
                 inputFile.close();
                 return SimulationSystem.builder()
@@ -59,6 +61,8 @@ public class FileProcessor {
             int saveTurn = Integer.parseInt(tokens[0]); //allocate the save turn value
             tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
             int currentTurn = Integer.parseInt(tokens[0]);
+            // TODO: Afer reading in the fuel ammount for each drone, assing that fuel to the drone.
+            // TODO: Read in the charge rate, gallons per thrust, gallons per stear, gallons per scan, gallons per pass
 
             inputFile.close();   
             return SimulationSystem.builder()
@@ -129,6 +133,7 @@ public class FileProcessor {
             region.getSpace(coordinates).setContents(Contents.SUN);
             suns.add(coordinates); //save the sun location so we don't need to parse space to find all of them.
         }
+
         return suns;
 
     }

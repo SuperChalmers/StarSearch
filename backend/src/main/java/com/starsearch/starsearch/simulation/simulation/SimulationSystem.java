@@ -203,6 +203,16 @@ public class SimulationSystem {
             fr.write(String.valueOf(FILE_VERSION) + System.lineSeparator()); //write the currenet version of the file
             fr.write(String.valueOf(saveTurn) + System.lineSeparator()); //write the save turn 
             fr.write(String.valueOf(turnCounter) + System.lineSeparator()); //write the current turn
+            for (Iterator<Drone> iterator = drones.iterator(); iterator.hasNext();) { //start writing the drone fuel state. one line per drone
+                Drone drone = iterator.next();
+                fr.write(String.valueOf(drone.getFuel()) + System.lineSeparator());
+            }
+            fr.write(String.valueOf(chargeRate) + System.lineSeparator());
+            fr.write(String.valueOf(gallonsPerThrust) + System.lineSeparator());
+            fr.write(String.valueOf(gallonsPerSteer) + System.lineSeparator());
+            fr.write(String.valueOf(gallonsPerScan) + System.lineSeparator());
+            fr.write(String.valueOf(gallonsPerPass) + System.lineSeparator());
+
             fr.close(); //close the file now that we're done
 
         } catch (Exception e) {
