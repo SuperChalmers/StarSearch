@@ -36,9 +36,9 @@ public class SimulationController {
     }
 
     @GetMapping(value="/simulation")
-    public SimulationStateResponse loadSimulation(@RequestParam final String SIMULATION_ID) throws FileNotFoundException {
-        final String saveFile = "C:\\Users\\Achinthya\\Documents\\CS6310-A6\\backend\\testScenarios\\scenario0.csv";//TODO find local file given simulation ID
-        return createSimulationFromFile(saveFile);
+    public SimulationStateResponse loadSimulation(@RequestParam final String saveFileName) throws FileNotFoundException {
+        final String SAVE_FILE_DIRECTORY = ".\\testScenarios\\"; //TODO change to real save file directory
+        return createSimulationFromFile(SAVE_FILE_DIRECTORY + saveFileName + ".csv");
     }
 
     @GetMapping(value = "/simulation/next")

@@ -3,10 +3,10 @@ package com.starsearch.starsearch.models;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Map;
+import java.util.List;
 
 @Data
 @Builder
 public class GetSavedSimulationsResponse {
-    private Map<String, String> simulations;
+    private List<String> simulations;
 }
