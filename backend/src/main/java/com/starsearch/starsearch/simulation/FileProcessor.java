@@ -63,9 +63,17 @@ public class FileProcessor {
             tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
             int currentTurn = Integer.parseInt(tokens[0]);
             parseDroneFuel(inputFile, drones); //get the fuel from the file and parse it.
-
-            // TODO: Read in the charge rate, gallons per thrust, gallons per stear, gallons per scan, gallons per pass
-
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the charge rate
+            chargeRate = Integer.parseInt(tokens[0]);
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the thrust
+            gallonsPerThrust = Integer.parseInt(tokens[0]);
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the steer
+            gallonsPerSteer = Integer.parseInt(tokens[0]);
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the scan
+            gallonsPerScan = Integer.parseInt(tokens[0]);
+            tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the pass
+            gallonsPerPass = Integer.parseInt(tokens[0]);
+            
             inputFile.close();   
             return SimulationSystem.builder()
                     .drones(drones)
