@@ -1,7 +1,7 @@
 import { convertSimulationResponse } from './helpers';
 
 describe('createSimulation', () => {
-    it('Creates a grid', async () => {
+    it('Creates a grid', () => {
         const simulationServerResponse = {
             id: 123,
             height: 2,
@@ -33,7 +33,7 @@ describe('createSimulation', () => {
                         width: 1,
                         height: 0
                     },
-                    contents: "STARS",
+                    contents: "SUN",
                     drone: false,
                     isExplored: false,
                     isKnown: false
@@ -63,7 +63,20 @@ describe('createSimulation', () => {
         
         var space = convertSimulationResponse(simulationServerResponse);
     
-        await expect(space[0].length).toBe(2);
+        expect(space[0].length).toBe(2);
+        expect(space.length).toBe(2);
+
+        expect(space[1][0].type).toBe("DRONE")
+        expect(space[1][0].direction).toBe("N")
+
+        expect(space[1][1].type).toBe("STARS")
+        expect(space[1][1].direction).toBe("none")
+
+        expect(space[0][1].type).toBe("SUN")
+        expect(space[0][1].direction).toBe("none")
+
+        expect(space[0][0].type).toBe("STARS")
+        expect(space[0][0].direction).toBe("none")
     })
 })
 
