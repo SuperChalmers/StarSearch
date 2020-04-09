@@ -1,31 +1,31 @@
-.north {
+.N {
     transform: rotate(-45deg);
 }
 
-.north-east {
+.NE {
     transform: none;   
 }
 
-.east {
+.E {
     transform: rotate(45deg);
 }
 
-.south-east {
+.SE {
     transform: rotate(90deg);
 }
 
-.south {
+.S {
     transform: rotate(135deg);
 }
 
-.south-west {
+.SW {
     transform: rotate(180deg);
 }
 
-.west {
+.W {
     transform: rotate(225deg);
 }
 
-.north-west {
+.NW {
     transform: rotate(270deg);
 }
