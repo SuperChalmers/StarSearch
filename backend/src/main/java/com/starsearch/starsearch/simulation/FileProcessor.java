@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.NoSuchElementException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -61,7 +62,8 @@ public class FileProcessor {
             int saveTurn = Integer.parseInt(tokens[0]); //allocate the save turn value
             tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the current turn (in case it was saved from a previous run)
             int currentTurn = Integer.parseInt(tokens[0]);
-            // TODO: Afer reading in the fuel ammount for each drone, assing that fuel to the drone.
+            parseDroneFuel(inputFile, drones); //get the fuel from the file and parse it.
+
             // TODO: Read in the charge rate, gallons per thrust, gallons per stear, gallons per scan, gallons per pass
 
             inputFile.close();   
@@ -136,5 +138,13 @@ public class FileProcessor {
 
         return suns;
 
+    }
+
+    private static void parseDroneFuel(Scanner inputFile, List<Drone> drones){ //gets the drone fuel and then assignes that to the drones
+        for (Iterator<Drone> iterator = drones.iterator(); iterator.hasNext();) { //should be one fuel line per drone
+            Drone drone = iterator.next();
+            String[] tokens = inputFile.nextLine().split(DELIMITER); //Read the line
+            drone.setFuel(Integer.parseInt(tokens[0])); //set the fuel value
+        }
     }
 }
