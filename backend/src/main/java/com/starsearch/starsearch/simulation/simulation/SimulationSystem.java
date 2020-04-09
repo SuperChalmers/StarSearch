@@ -214,7 +214,8 @@ public class SimulationSystem {
                 fr.write(String.valueOf(drone.getFuel()) + System.lineSeparator());
             }
             writeFuelState(fr);
-
+            writeExploredState(fr);
+            
             fr.close(); //close the file now that we're done
 
         } catch (Exception e) {
@@ -236,5 +237,18 @@ public class SimulationSystem {
         fr.write(String.valueOf(gallonsPerSteer) + System.lineSeparator());
         fr.write(String.valueOf(gallonsPerScan) + System.lineSeparator());
         fr.write(String.valueOf(gallonsPerPass) + System.lineSeparator());
+    }
+
+    private void writeExploredState(FileWriter fr) throws Exception {
+        for (int i = 0; i < region.getMaxWidth(); i++) {
+            for (int j = 0; j < region.getMaxHeight(); j++) {
+                Coordinates coordinates = new Coordinates(i,j);
+                Space thisSpace = region.getSpace(coordinates);
+                if(thisSpace.getIsExplored()){
+                    fr.write(String.valueOf(thisSpace.getCoordinates().getWidth()) + DELIMITER + String.valueOf(thisSpace.getCoordinates().getHeight()));
+                    fr.write(System.lineSeparator()); //new line for each coordinate
+                }
+            }
+        }
     }
 }
