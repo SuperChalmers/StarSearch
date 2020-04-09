@@ -33,12 +33,12 @@ public class FileProcessor {
             String[] tokens = inputFile.nextLine().split(DELIMITER);
             int turnLimit = Integer.parseInt(tokens[0]);
             
-           try {
+            try {
                 tokens = inputFile.nextLine().split(DELIMITER);  //get the version of the file
                 if(tokens[0].isEmpty()){ //empty stuff at the end of the file. Still valid old file, just need to be aware of empty stuff. 
                     throw new NoSuchElementException();
                 }
-            }catch(java.util.NoSuchElementException nse){  //if the version doesn't exist, it is an old format, so only return the old format info
+            } catch(java.util.NoSuchElementException nse){  //if the version doesn't exist, it is an old format, so only return the old format info
                 inputFile.close();
                 return SimulationSystem.builder()
                     .drones(drones)
@@ -73,7 +73,8 @@ public class FileProcessor {
             gallonsPerScan = Integer.parseInt(tokens[0]);
             tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the pass
             gallonsPerPass = Integer.parseInt(tokens[0]);
-            
+            // TODO: add the region definition.
+
             inputFile.close();   
             return SimulationSystem.builder()
                     .drones(drones)

@@ -208,19 +208,12 @@ public class SimulationSystem {
                 Coordinates sun = iterator.next();
                 fr.write(String.valueOf(sun.getWidth()) + DELIMITER + String.valueOf(sun.getHeight()) + System.lineSeparator()); //write the sun location
             }
-            fr.write(String.valueOf(maxTurns) + System.lineSeparator()); //write max turns
-            fr.write(String.valueOf(FILE_VERSION) + System.lineSeparator()); //write the currenet version of the file
-            fr.write(String.valueOf(saveTurn) + System.lineSeparator()); //write the save turn 
-            fr.write(String.valueOf(turnCounter) + System.lineSeparator()); //write the current turn
+            writeTurnState(fr);
             for (Iterator<Drone> iterator = drones.iterator(); iterator.hasNext();) { //start writing the drone fuel state. one line per drone
                 Drone drone = iterator.next();
                 fr.write(String.valueOf(drone.getFuel()) + System.lineSeparator());
             }
-            fr.write(String.valueOf(chargeRate) + System.lineSeparator());
-            fr.write(String.valueOf(gallonsPerThrust) + System.lineSeparator());
-            fr.write(String.valueOf(gallonsPerSteer) + System.lineSeparator());
-            fr.write(String.valueOf(gallonsPerScan) + System.lineSeparator());
-            fr.write(String.valueOf(gallonsPerPass) + System.lineSeparator());
+            writeFuelState(fr);
 
             fr.close(); //close the file now that we're done
 
@@ -229,5 +222,19 @@ public class SimulationSystem {
             throw e;
         } 
 
+    }
+    private void writeTurnState(FileWriter fr) throws Exception{
+        fr.write(String.valueOf(maxTurns) + System.lineSeparator()); //write max turns
+        fr.write(String.valueOf(FILE_VERSION) + System.lineSeparator()); //write the currenet version of the file
+        fr.write(String.valueOf(saveTurn) + System.lineSeparator()); //write the save turn 
+        fr.write(String.valueOf(turnCounter) + System.lineSeparator()); //write the current turn
+    }
+    
+    private void writeFuelState(FileWriter fr) throws Exception{
+        fr.write(String.valueOf(chargeRate) + System.lineSeparator()); 
+        fr.write(String.valueOf(gallonsPerThrust) + System.lineSeparator());
+        fr.write(String.valueOf(gallonsPerSteer) + System.lineSeparator());
+        fr.write(String.valueOf(gallonsPerScan) + System.lineSeparator());
+        fr.write(String.valueOf(gallonsPerPass) + System.lineSeparator());
     }
 }
