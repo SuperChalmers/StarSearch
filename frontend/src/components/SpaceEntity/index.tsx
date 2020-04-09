@@ -7,14 +7,20 @@ class SpaceEntity extends React.Component<any, any> {
     render() {
         let html;
         
-        if(this.props.type === "DRONE") {
+        // If the object isn't known, don't show it at all.
+        if(!this.props.known) {
+            html = (
+                <div></div>
+            );
+        }
+        else if(this.props.type === "DRONE") {
             html = (
                 <Drone direction={this.props.direction} active={this.props.active}></Drone>
             );
         }
         else if(this.props.type === "STARS") {
             html = (
-                <Starfield></Starfield>
+                <Starfield explored={this.props.explored}></Starfield>
             );
         }
         else if(this.props.type === "EMPTY") {

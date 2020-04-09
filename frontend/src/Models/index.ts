@@ -5,12 +5,16 @@ export class SpaceEntity {
     type: string;
     direction: Direction;
     status: string;
+    known: boolean;
+    explored: boolean;
 
-    constructor(id: string, type: any, direction: Direction, status: string) {
+    constructor(id: string, type: any, direction: Direction, status: string, known: boolean = false, explored: boolean = false) {
         this.id = id;
         this.type = type;
         this.direction = direction;
         this.status = status;
+        this.known = known;
+        this.explored = explored;
     }
 }
 
