@@ -19,7 +19,7 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
         var x = drone.coordinates.width;
         var y = drone.coordinates.height;
         
-        space[y][x] = new SpaceEntity(drone.droneID, "DRONE", Direction[drone.orientation], "");
+        space[y][x] = new SpaceEntity(drone.droneID, "DRONE", Direction[drone.orientation], "", true, true);
     });
 
     // Assign other space entity locations.
@@ -28,7 +28,7 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
         var y = spaceElement.coordinates.height;
 
         // Only add if it's not a drone since drones are processed first.
-        spaceEntity = new SpaceEntity("0", spaceElement.contents, Direction["none"], "");
+        spaceEntity = new SpaceEntity("0", spaceElement.contents, Direction["none"], "", spaceElement.isKnown, spaceElement.isExplored);
         if(spaceEntity.type !== "DRONE") {
             space[y][x] = spaceEntity;
         }

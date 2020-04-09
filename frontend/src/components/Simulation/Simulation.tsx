@@ -182,7 +182,10 @@ class Simulation extends React.Component<any, any> {
                                 direction={spaceEntity.direction}
                                 type={spaceEntity.type}
                                 active={spaceEntity.active}
-                                status={spaceEntity.status}>    
+                                status={spaceEntity.status}
+                                explored={spaceEntity.explored}
+                                known={spaceEntity.known}
+                                > 
                             </SpaceEntity>
                         </td>
                     )
