@@ -1,46 +1,8 @@
-var _ = require('lodash');
+import { Direction, DroneResponse, SpaceElementResponse } from "../Types"
+import { SpaceEntity } from "../Models"
 
-class SpaceEntity {
-    id: string;
-    type: string;
-    direction: string;
-    status: string;
 
-    constructor(id: string, type: any, direction: any, status: string) {
-        this.id = id;
-        this.type = type;
-        this.direction = direction;
-        this.status = status;
-    }
-}
-
-interface Simulation {
-    id: number;
-    space: Array<Array<any>>;
-}
-
-interface DroneResponse {
-    droneID: string;
-    orientation: string;
-    coordinates: {
-        width: number,
-        height: number
-    };
-    strategy: number;
-}
-
-interface SpaceElementResponse {
-    coordinates: {
-        width: number,
-        height: number
-    };
-    contents: string;
-    drone: boolean;
-    isExplored: boolean;
-    isKnown: boolean;
-}
-
-export function convertSimulationResponse(simulationResponse: any): Array<Array<any>> {
+export function convertSimulationResponse(simulationResponse: any): Array<Array<SpaceEntity>> {
     var space: Array<any> = [];
     var spaceEntity: SpaceEntity;
 
@@ -48,7 +10,7 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
     for(var i = 0; i < simulationResponse.height; i++) {
         space.push(new Array(simulationResponse.width));
         for(var j = 0; j < simulationResponse.height; j++) {
-            space[i][j] = new SpaceEntity("0", "EMPTY", "none", "none");
+            space[i][j] = new SpaceEntity("0", "EMPTY", Direction["none"], "none");
         }
     }
 
@@ -56,8 +18,8 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
     simulationResponse.drones.forEach((drone: DroneResponse) => {
         var x = drone.coordinates.width;
         var y = drone.coordinates.height;
-
-        space[y][x] = new SpaceEntity(drone.droneID, "drone", drone.orientation, "");
+        
+        space[y][x] = new SpaceEntity(drone.droneID, "DRONE", Direction[drone.orientation], "", true, true);
     });
 
     // Assign other space entity locations.
@@ -66,12 +28,12 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
         var y = spaceElement.coordinates.height;
 
         // Only add if it's not a drone since drones are processed first.
-        spaceEntity = new SpaceEntity("0", spaceElement.contents, "none", "");
-        if(spaceEntity.type != "DRONE") {
+        spaceEntity = new SpaceEntity("0", spaceElement.contents, Direction["none"], "", spaceElement.isKnown, spaceElement.isExplored);
+        if(spaceEntity.type !== "DRONE") {
             space[y][x] = spaceEntity;
         }
     });
-    console.log(space);
+    
     return space;
 }
 

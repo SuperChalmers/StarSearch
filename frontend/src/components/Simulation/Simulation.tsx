@@ -1,13 +1,12 @@
 import * as React from 'react';
+import * as _ from 'lodash';
 import { Table, Button, Form, Dropdown, DropdownButton } from 'react-bootstrap';
 
 import './Simulation.scss';
-import Rocket from '../Rocket/Rocket';
-import Sun from '../Sun/Sun';
-import Starfield from '../Starfield/Starfield';
+import SpaceEntity from '../SpaceEntity';
 import * as SimulationRequest from '../../requests/Simulation';
 import { convertSimulationResponse } from '../../helper/helpers';
-import { Simulation as SimulationModel } from '../../Models/Simulation';
+import { Simulation as SimulationModel } from '../../Models';
 
 class Simulation extends React.Component<any, any> {
 
@@ -27,27 +26,42 @@ class Simulation extends React.Component<any, any> {
         };
     }
 
-    // componentDidUpdate() {
-    //     this.updateSimulationState();
-    // }
+    async componentDidMount() {
+        var simulation = await this.updateSimulationState();
+        
+        this.setState({
+            simulation: simulation
+        })
+    }
 
-    componentDidMount() {
-        this.updateSimulationState();
+    componentDidUpdate(prevProps, prevState) {
+        if(!_.isEqual(this.state.simulation, prevState.simulation)) {
+            this.updateSimulationState();
+        }
     }
 
     updateSimulationState = async () => {
         // Stub for rest request.
         var stub = {
             id: "123",
-            height: 4,
-            width: 5,
+            height: 2,
+            width: 3,
             drones: [
                 {
                     droneID: "d0",
                     orientation: "N",
                     coordinates: {
+                        width: 2,
+                        height: 1
+                    },
+                    strategy: 0
+                },
+                {
+                    droneID: "d1",
+                    orientation: "SE",
+                    coordinates: {
                         width: 1,
-                        height: 2
+                        height: 1
                     },
                     strategy: 0
                 }
@@ -60,28 +74,8 @@ class Simulation extends React.Component<any, any> {
                     },
                     contents: "STARS",
                     drone: false,
-                    isExplored: false,
-                    isKnown: false
-                },
-                {
-                    coordinates: {
-                        width: 0,
-                        height: 1
-                    },
-                    contents: "STARS",
-                    drone: false,
-                    isExplored: false,
-                    isKnown: false
-                },
-                {
-                    coordinates: {
-                        width: 1,
-                        height: 1
-                    },
-                    contents: "STARS",
-                    drone: false,
-                    isExplored: false,
-                    isKnown: false
+                    isExplored: true,
+                    isKnown: true
                 },
                 {
                     coordinates: {
@@ -91,16 +85,54 @@ class Simulation extends React.Component<any, any> {
                     contents: "STARS",
                     drone: false,
                     isExplored: false,
+                    isKnown: true
+                },
+                {
+                    coordinates: {
+                        width: 2,
+                        height: 0
+                    },
+                    contents: "STARS",
+                    drone: false,
+                    isExplored: false,
+                    isKnown: false
+                },
+                {
+                    coordinates: {
+                        width: 0,
+                        height: 1
+                    },
+                    contents: "EMPTY",
+                    drone: false,
+                    isExplored: false,
+                    isKnown: false
+                },
+                {
+                    coordinates: {
+                        width: 1,
+                        height: 1
+                    },
+                    contents: "DRONE",
+                    drone: true,
+                    isExplored: true,
+                    isKnown: false
+                },
+                {
+                    coordinates: {
+                        width: 2,
+                        height: 1
+                    },
+                    contents: "DRONE",
+                    drone: true,
+                    isExplored: true,
                     isKnown: false
                 }
             ]
         }
 
         var simulationArray = convertSimulationResponse(stub);
-        var simulation = new SimulationModel(stub.id, simulationArray)
-        this.setState({
-            simulation: simulation
-        })
+        
+        return new SimulationModel(stub.id, simulationArray);
     }
 
     handleNextTurn = () => {
@@ -119,52 +151,69 @@ class Simulation extends React.Component<any, any> {
         )
     }
 
-    render() {
-        const spaceGrid = [];
-        if (this.state.simulation.space) {
-            for (var rowIndex = 0; rowIndex < this.state.simulation.space.height() - 1; rowIndex++) {
-                let items = [];
+    renderSpaceTable = () => {
+        let table: any[] = []
+    
+        // Only render if there is stuff to render.
+        if(this.state.simulation.space && 
+            this.state.simulation.space.area && 
+            this.state.simulation.space.area.length) {
+                
+            var height = this.state.simulation.space.height();
+            var width = this.state.simulation.space.width();
 
-                // for (var columnIndex = 0; columnIndex < this.state.simulation.space.width() - 1; columnIndex++) {
-                //     this.state.simulation.space.get(columnIndex, rowIndex)
-                //     if(columnIndex = 0) {
-                //         items.push(<td key={columnIndex}>{rowIndex}</td>)
-                //     }
-                //     items.push(<td key={columnIndex + 1}>f</td>)
-                // }
-
-                // spaceGrid.push(<tr key={rowIndex}>{items}</tr>)
-                // if(rowIndex == this.state.simulation.space.height() - 1) {
-                //     spaceGrid.push(<tr key={rowIndex}></tr>)
-                // }
+            // Rows
+            for (var rowIndex = 0; rowIndex < height; rowIndex++) {
+                let columns: any[] = [];
+                
+                // Columns
+                for (var columnIndex = 0; columnIndex < width; columnIndex++) {
+                    var spaceEntity = this.state.simulation.space.get(columnIndex, rowIndex);
+                    
+                    if(columnIndex === 0) {
+                        columns.push(
+                            <td key={`${rowIndex}-row-${columnIndex}-column-index`}>{Math.abs(rowIndex - height)}</td>
+                        )
+                    }
+                    
+                    columns.push(
+                        <td key={`${rowIndex}-row-${columnIndex}-column`}>
+                            <SpaceEntity 
+                                direction={spaceEntity.direction}
+                                type={spaceEntity.type}
+                                active={spaceEntity.active}
+                                status={spaceEntity.status}
+                                explored={spaceEntity.explored}
+                                known={spaceEntity.known}
+                                > 
+                            </SpaceEntity>
+                        </td>
+                    )
+                }   
+                table.push(<tr key={rowIndex + "-row"}>{columns}</tr>)                
             }
+
+            let indexColumns: any[] = [];
+            for (var columnIndex = 0; columnIndex < width + 1; columnIndex++) {
+                indexColumns.push(<td key={`${rowIndex}-row-${columnIndex}-column-index`}>{columnIndex}</td>);
+            }
+
+            table.push(<tr key={rowIndex + "-row"}>{indexColumns}</tr>)
         }
 
+        return table;
+    }
+
+    render() {
         return (
             <div className="page">
                 <div className="blockTable">
                     <div id="simulation-table">
                         <h1>Space Simulation {this.props.simulationNumber}</h1>
+
                         <Table bordered className="space-state">
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><Rocket direction="north" active={false}></Rocket></td>
-                                    <td><Sun></Sun></td>
-                                    <td><Starfield></Starfield></td>
-                                </tr>
-                                <tr>
-                                    <td>0</td>
-                                    <td><Rocket direction="south" active={true}></Rocket></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>0</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                </tr>
+                                {this.renderSpaceTable()}
                             </tbody>
                         </Table>
                     </div>
