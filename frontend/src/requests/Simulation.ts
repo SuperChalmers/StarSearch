@@ -15,8 +15,8 @@ export interface CreateSimulationRequest {
 }
 
 // Request backend executes next step
-export async function nextStep(simulationId: number) {
-    return await axios.get(`/simulation/${simulationId}/next`);
+export async function nextStep() {
+    return await axios.get(`/simulation/next`);
 }
 
 // Request backend halts simulation

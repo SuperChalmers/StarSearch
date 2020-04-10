@@ -13,12 +13,6 @@ class Simulation extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            action: '',
-            selectedDirection: 'Direction',
-            selectedDistance: 'Distance',
-            autoDecision: false,
-            width: '',
-            height: '',
             safeSquares: '',
             exploredSquares: '',
             turnsTaken: '',
@@ -135,8 +129,12 @@ class Simulation extends React.Component<any, any> {
         return new SimulationModel(stub.id, simulationArray);
     }
 
-    handleNextTurn = () => {
-        // TODO: trigger request
+    handleNextTurn = async () => {
+        // Get next state from the server.
+        var newSimulationState = await SimulationRequest.nextStep();
+        this.setState({
+            simulation: newSimulationState
+        });
     }
 
     handleStopSimulation = async () => {
@@ -234,11 +232,15 @@ class Simulation extends React.Component<any, any> {
                             <this.displayText text="Turns Taken : " />
                         </div>
                         <div className="reportValues">
-                            <this.displayText text={this.state.width} />
-                            <this.displayText text={this.state.height} />
-                            <this.displayText text={this.state.safeSquares} />
-                            <this.displayText text={this.state.exploredSquares} />
-                            <this.displayText text={this.state.turnsTaken} />
+                            {this.state.simulation && 
+                                <div>
+                                    <this.displayText text={() => this.state.simulation.width()} />
+                                    <this.displayText text={() => this.state.simulation.height()} />
+                                    <this.displayText text={this.state.safeSquares} />
+                                    <this.displayText text={this.state.exploredSquares} />
+                                    <this.displayText text={this.state.turnsTaken} />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
