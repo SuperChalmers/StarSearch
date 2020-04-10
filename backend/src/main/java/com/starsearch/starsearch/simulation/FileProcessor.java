@@ -83,6 +83,14 @@ public class FileProcessor {
                 region.getSpace(coordinates).setIsKnown(true); //since it is explored before, it is known.
             }
 
+            tokens = inputFile.nextLine().split(DELIMITER);
+            Integer spaceKnown = Integer.parseInt(tokens[0]); //read in the spaces known 
+            for (int i = 0; i < spaceKnown; i++) { //Read in each explored space
+                tokens = inputFile.nextLine().split(DELIMITER);
+                Coordinates coordinates = new Coordinates(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
+                region.getSpace(coordinates).setIsKnown(true); //set the known state
+            }
+
             inputFile.close();   
             return SimulationSystem.builder()
                     .drones(drones)
