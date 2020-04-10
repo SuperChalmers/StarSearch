@@ -9,13 +9,15 @@ describe('createSimulation', () => {
                     id: "a",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 0
                 },
                 { 
                     id: "b",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 1
                 }
             ],
             [
@@ -23,13 +25,15 @@ describe('createSimulation', () => {
                     id: "c",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 2
                 },
                 { 
                     id: "d",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 3
                 }
             ]
         ]);
@@ -51,19 +55,22 @@ describe('createSimulation', () => {
                     id: "a",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 0
                 },
                 { 
                     id: "b",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 1
                 },
                 { 
                     id: "c",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 2
                 }
             ],
             [
@@ -71,19 +78,22 @@ describe('createSimulation', () => {
                     id: "d",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 3
                 },
                 { 
                     id: "e",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 4
                 },
                 { 
                     id: "f",
                     type: "DRONE",
                     direction: Direction.N,
-                    status: "none"
+                    status: "none",
+                    fuel: 5
                 }
             ]
         ]);

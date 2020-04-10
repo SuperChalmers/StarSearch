@@ -15,7 +15,7 @@ class SpaceEntity extends React.Component<any, any> {
         }
         else if(this.props.type === "DRONE") {
             html = (
-                <Drone direction={this.props.direction} active={this.props.active}></Drone>
+                <Drone direction={this.props.direction} active={this.props.active} fuel={this.props.fuel}></Drone>
             );
         }
         else if(this.props.type === "STARS") {

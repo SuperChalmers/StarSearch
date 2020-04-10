@@ -7,14 +7,16 @@ export class SpaceEntity {
     status: string;
     known: boolean;
     explored: boolean;
+    fuel: number;
 
-    constructor(id: string, type: any, direction: Direction, status: string, known: boolean = false, explored: boolean = false) {
+    constructor(id: string, type: any, direction: Direction, status: string, fuel: number, known: boolean = false, explored: boolean = false) {
         this.id = id;
         this.type = type;
         this.direction = direction;
         this.status = status;
         this.known = known;
         this.explored = explored;
+        this.fuel = fuel;
     }
 }
 

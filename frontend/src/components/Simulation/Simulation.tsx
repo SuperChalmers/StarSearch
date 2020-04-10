@@ -48,7 +48,8 @@ class Simulation extends React.Component<any, any> {
                         width: 2,
                         height: 1
                     },
-                    strategy: 0
+                    strategy: 0,
+                    fuel: 0
                 },
                 {
                     droneID: "d1",
@@ -57,7 +58,8 @@ class Simulation extends React.Component<any, any> {
                         width: 1,
                         height: 1
                     },
-                    strategy: 0
+                    strategy: 0,
+                    fuel: 1
                 }
             ],
             spaceMap: [
@@ -183,7 +185,7 @@ class Simulation extends React.Component<any, any> {
                                 status={spaceEntity.status}
                                 explored={spaceEntity.explored}
                                 known={spaceEntity.known}
-                                > 
+                                fuel={spaceEntity.fuel}>    
                             </SpaceEntity>
                         </td>
                     )
