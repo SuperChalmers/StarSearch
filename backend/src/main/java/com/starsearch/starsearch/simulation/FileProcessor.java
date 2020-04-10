@@ -73,7 +73,15 @@ public class FileProcessor {
             gallonsPerScan = Integer.parseInt(tokens[0]);
             tokens = inputFile.nextLine().split(DELIMITER);  //get the value for the pass
             gallonsPerPass = Integer.parseInt(tokens[0]);
-            // TODO: add the region definition.
+
+            tokens = inputFile.nextLine().split(DELIMITER);
+            Integer spaceExplored = Integer.parseInt(tokens[0]); //read in the spaces explored 
+            for (int i = 0; i < spaceExplored; i++) { //Read in each explored space
+                tokens = inputFile.nextLine().split(DELIMITER);
+                Coordinates coordinates = new Coordinates(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
+                region.getSpace(coordinates).setIsExplored(true); //set the explored state to true for that space
+                region.getSpace(coordinates).setIsKnown(true); //since it is explored before, it is known.
+            }
 
             inputFile.close();   
             return SimulationSystem.builder()
@@ -81,7 +89,7 @@ public class FileProcessor {
                     .maxSpaceExplorable(region.getSpaceMap().size() - region.getNumberOfSuns())
                     .maxTurns(turnLimit)
                     .region(region)
-                    .spaceExplored(drones.size())
+                    .spaceExplored(spaceExplored)
                     .chargeRate(chargeRate)
                     .gallonsPerThrust(gallonsPerThrust)
                     .gallonsPerSteer(gallonsPerSteer)

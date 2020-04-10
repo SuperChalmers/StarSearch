@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.io.FileWriter;
@@ -215,6 +216,7 @@ public class SimulationSystem {
             }
             writeFuelState(fr);
             writeExploredState(fr);
+            writeKnownState(fr);
             
             fr.close(); //close the file now that we're done
 
@@ -240,6 +242,7 @@ public class SimulationSystem {
     }
 
     private void writeExploredState(FileWriter fr) throws Exception {
+        fr.write(String.valueOf(spaceExplored) + System.lineSeparator()); //write out the number of spaces explored
         for (int i = 0; i < region.getMaxWidth(); i++) {
             for (int j = 0; j < region.getMaxHeight(); j++) {
                 Coordinates coordinates = new Coordinates(i,j);
@@ -249,6 +252,28 @@ public class SimulationSystem {
                     fr.write(System.lineSeparator()); //new line for each coordinate
                 }
             }
+        }
+    }
+
+    private void writeKnownState(FileWriter fr) throws Exception {
+        Integer knownCount = 0;
+        HashMap<Integer, Coordinates> knownSpace = new HashMap<Integer, Coordinates>();
+
+        for (int i = 0; i < region.getMaxWidth(); i++) {
+            for (int j = 0; j < region.getMaxHeight(); j++) {
+                Coordinates coordinates = new Coordinates(i,j);
+                Space thisSpace = region.getSpace(coordinates);
+                if(thisSpace.getIsKnown()){
+                    knownSpace.put(knownCount, coordinates);
+                    knownCount++;
+                }  
+            }
+        }
+        fr.write(String.valueOf(knownCount) + System.lineSeparator()); //write out the number of spaces known
+        for(int i = 0; i < knownSpace.size();i++){
+            Coordinates coordinates = knownSpace.get(i);
+            fr.write(String.valueOf(coordinates.getWidth()) + DELIMITER + String.valueOf(coordinates.getHeight()));
+            fr.write(System.lineSeparator());
         }
     }
 }
