@@ -48,4 +48,12 @@ export class Simulation {
         this.id = id;
         this.space = new Space(space);
     }
+
+    width() {
+        return this.space.width();
+    }
+
+    height() {
+        return this.space.height();
+    }
 }
