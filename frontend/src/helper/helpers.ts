@@ -10,7 +10,7 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
     for(var i = 0; i < simulationResponse.height; i++) {
         space.push(new Array(simulationResponse.width));
         for(var j = 0; j < simulationResponse.height; j++) {
-            space[i][j] = new SpaceEntity("0", "EMPTY", Direction["none"], "none");
+            space[i][j] = new SpaceEntity("0", "EMPTY", Direction["none"], "none", 0);
         }
     }
 
@@ -18,8 +18,7 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
     simulationResponse.drones.forEach((drone: DroneResponse) => {
         var x = drone.coordinates.width;
         var y = drone.coordinates.height;
-        
-        space[y][x] = new SpaceEntity(drone.droneID, "DRONE", Direction[drone.orientation], "", true, true);
+        space[y][x] = new SpaceEntity(drone.droneID, "DRONE", Direction[drone.orientation], "", drone.fuel, true, true);
     });
 
     // Assign other space entity locations.
@@ -28,7 +27,7 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
         var y = spaceElement.coordinates.height;
 
         // Only add if it's not a drone since drones are processed first.
-        spaceEntity = new SpaceEntity("0", spaceElement.contents, Direction["none"], "", spaceElement.isKnown, spaceElement.isExplored);
+        spaceEntity = new SpaceEntity("0", spaceElement.contents, Direction["none"], "", 0, spaceElement.isKnown, spaceElement.isExplored);
         if(spaceEntity.type !== "DRONE") {
             space[y][x] = spaceEntity;
         }
