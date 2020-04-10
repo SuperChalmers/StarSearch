@@ -76,8 +76,9 @@ public class SimulationSystem {
                 } else if (actionIsThrust(action.getAction())) {
                     handleThrust(drone, action);
                 } else if (Action.STEER.equals(action.getAction())) {
-                    System.out.print(",steer," + OrientationCoordinateOffsets.getDirectionFromOrientation(drone.getOrientation()));
+                    System.out.print(",steer," + OrientationCoordinateOffsets.getDirectionFromOrientation(action.getOrientation()));
                     System.out.println("\nok");
+                    drone.setOrientation(action.getOrientation());
                 } else if (Action.PASS.equals(action.getAction())) {
                     System.out.print(",pass");
                     System.out.println("\nok");
