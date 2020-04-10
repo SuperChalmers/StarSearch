@@ -23,6 +23,7 @@ export interface DroneResponse {
         height: number
     };
     strategy: number;
+    fuel: number;
 }
 
 export interface SpaceElementResponse {

@@ -14,7 +14,8 @@ describe('createSimulation', () => {
                         width: 0,
                         height: 1
                     },
-                    strategy: 0
+                    strategy: 0,
+                    fuel: 0
                 }
             ],
             spaceMap: [

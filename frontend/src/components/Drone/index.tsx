@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Overlay, Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import "./index.scss";
 
@@ -24,11 +25,21 @@ class Drone extends React.Component<any, any> {
         }
         return html;
     }
-
+    
     render() {
         const rocketIcon = this.getIconHtml(this.props.direction, this.props.active);
+        const tooltip = (
+            <Tooltip id="overlay-example">
+                Fuel: {this.props.fuel}
+            </Tooltip>
+        )
+
         return (
-            rocketIcon
+            <div>
+                <OverlayTrigger placement="left" overlay={tooltip}>
+                    {rocketIcon}
+                </OverlayTrigger>       
+            </div>
         );
     }
 }
