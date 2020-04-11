@@ -1,5 +1,12 @@
 import axios from 'axios';
 
+
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+const instance = axios.create({
+    baseURL: 'http://localhost:8080'
+});
+
 export interface CreateSimulationRequest {
     name: string,
     secondsDelay: number,
@@ -16,7 +23,7 @@ export interface CreateSimulationRequest {
 
 // Request backend executes next step
 export async function nextStep() {
-    return await axios.get(`/simulation/next`);
+    return await instance.get(`/simulation/next`);
 }
 
 // Request backend halts simulation
@@ -26,7 +33,7 @@ export async function halt(simulationId: number) {
 
 // Create a simulation
 export async function createSimulation(simulation: CreateSimulationRequest) {
-    return await axios.post('/simulation', simulation);
+    return await instance.post('/simulation', simulation);
 }
 
 // Load single simulation
