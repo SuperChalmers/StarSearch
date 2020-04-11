@@ -165,7 +165,7 @@ public class SimulationSystem {
         //Simulation is over (this returns true if): no more drones, max turns, all space explored
         turnCounter++;
         //System.out.println("\n" + turnCounter);
-        return drones.size() > 0 && turnCounter <= maxTurns && spaceExplored < maxSpaceExplorable;
+        return drones.size() > 0 && turnCounter < maxTurns && spaceExplored < maxSpaceExplorable;
     }
 
     private Boolean actionIsThrust(Action action) {
