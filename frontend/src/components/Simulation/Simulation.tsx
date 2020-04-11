@@ -22,14 +22,14 @@ class Simulation extends React.Component<any, any> {
 
     async componentDidMount() {
         var simulation = await this.updateSimulationState();
-        
+
         this.setState({
             simulation: simulation
         })
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(!_.isEqual(this.state.simulation, prevState.simulation)) {
+        if (!_.isEqual(this.state.simulation, prevState.simulation)) {
             this.updateSimulationState();
         }
     }
@@ -127,7 +127,7 @@ class Simulation extends React.Component<any, any> {
         }
 
         var simulationArray = convertSimulationResponse(stub);
-        
+
         return new SimulationModel(stub.id, simulationArray);
     }
 
@@ -143,54 +143,54 @@ class Simulation extends React.Component<any, any> {
         await SimulationRequest.halt(this.state.id);
     }
 
-    displayText(props: any) {
+    displayText(text: any) {
         return (
-            <div className="text">
-                {props.text}
+            <div>
+                {text}
             </div>
         )
     }
 
     renderSpaceTable = () => {
         let table: any[] = []
-    
+
         // Only render if there is stuff to render.
-        if(this.state.simulation.space && 
-            this.state.simulation.space.area && 
+        if (this.state.simulation.space &&
+            this.state.simulation.space.area &&
             this.state.simulation.space.area.length) {
-                
+
             var height = this.state.simulation.space.height();
             var width = this.state.simulation.space.width();
 
             // Rows
             for (var rowIndex = 0; rowIndex < height; rowIndex++) {
                 let columns: any[] = [];
-                
+
                 // Columns
                 for (var columnIndex = 0; columnIndex < width; columnIndex++) {
                     var spaceEntity = this.state.simulation.space.get(columnIndex, rowIndex);
-                    
-                    if(columnIndex === 0) {
+
+                    if (columnIndex === 0) {
                         columns.push(
                             <td key={`${rowIndex}-row-${columnIndex}-column-index`}>{Math.abs(rowIndex - height)}</td>
                         )
                     }
-                    
+
                     columns.push(
                         <td key={`${rowIndex}-row-${columnIndex}-column`}>
-                            <SpaceEntity 
+                            <SpaceEntity
                                 direction={spaceEntity.direction}
                                 type={spaceEntity.type}
                                 active={spaceEntity.active}
                                 status={spaceEntity.status}
                                 explored={spaceEntity.explored}
                                 known={spaceEntity.known}
-                                fuel={spaceEntity.fuel}>    
+                                fuel={spaceEntity.fuel}>
                             </SpaceEntity>
                         </td>
                     )
-                }   
-                table.push(<tr key={rowIndex + "-row"}>{columns}</tr>)                
+                }
+                table.push(<tr key={rowIndex + "-row"}>{columns}</tr>)
             }
 
             let indexColumns: any[] = [];
@@ -230,22 +230,18 @@ class Simulation extends React.Component<any, any> {
                     </div>
                     <div className="colReport" >
                         <div className="reportHeader">
-                            <this.displayText text="Width : " />
-                            <this.displayText text="Height : " />
-                            <this.displayText text="Safe Squares : " />
-                            <this.displayText text="Explored Squares : " />
-                            <this.displayText text="Turns Taken : " />
+                            {this.displayText("Width : ")}
+                            {this.displayText("Height : ")}
+                            {this.displayText("Safe Squares : ")}
+                            {this.displayText("Explored Squares : ")}
+                            {this.displayText("Turns Taken : ")}
                         </div>
                         <div className="reportValues">
-                            {this.state.simulation && 
-                                <div>
-                                    <this.displayText text={() => this.state.simulation.width()} />
-                                    <this.displayText text={() => this.state.simulation.height()} />
-                                    <this.displayText text={this.state.safeSquares} />
-                                    <this.displayText text={this.state.exploredSquares} />
-                                    <this.displayText text={this.state.turnsTaken} />
-                                </div>
-                            }
+                            {this.displayText(this.state.simulation.width)}
+                            {this.displayText(this.state.simulation.height)}
+                            {this.displayText(this.state.simulation.safeSquares)}
+                            {this.displayText(this.state.simulation.exploredSquares)}
+                            {this.displayText("TODO")}
                         </div>
                     </div>
                 </div>

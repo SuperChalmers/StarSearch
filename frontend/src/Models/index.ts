@@ -45,17 +45,54 @@ export class Space {
 export class Simulation {
     id: string;
     space: Space;
+    width: number;
+    height: number;
+    safeSquares: number;
+    exploredSquares: number;
 
     constructor(id: string, space: Array<Array<SpaceEntity>>) {
         this.id = id;
         this.space = new Space(space);
+
+        this.width = this.space.width();
+        this.height = this.space.height();
+
+        this.safeSquares = this.getSafeSquares()
+        this.exploredSquares = this.getExploredSquares()
     }
 
-    width() {
-        return this.space.width();
+    getSafeSquares() {
+        var safeSquares = 0;
+
+        for (var i = 0; i < this.space.width(); i++) {
+            for (var j = 0; j < this.space.height(); j++) {
+                const spaceEntity = this.space.get(i, j);
+                const type = spaceEntity.type;
+
+                if (type === "DRONE" || type === "EMPTY" || type === "STARS") {
+                    safeSquares++;
+                }
+            }
+        }
+
+        console.log(safeSquares);
+        return safeSquares;
     }
 
-    height() {
-        return this.space.height();
+    getExploredSquares() {
+        var exploredSquares = 0;
+
+        for (var i = 0; i < this.space.width(); i++) {
+            for (var j = 0; j < this.space.height(); j++) {
+                const spaceEntity = this.space.get(i, j);
+                const type = spaceEntity.type;
+
+                if (type === "DRONE" || type === "EMPTY") {
+                    exploredSquares++;
+                }
+            }
+        }
+
+        return exploredSquares;
     }
 }
