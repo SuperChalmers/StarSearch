@@ -3,6 +3,7 @@ import { Button, Form, Dropdown, DropdownButton, FormControl } from 'react-boots
 import history from './../history';
 import './Setup.scss';
 import { isUndefined } from 'util';
+import { createSimulation } from '../../requests/Simulation';
 
 class Setup extends React.Component<any, any> {
     constructor(props: any) {
@@ -47,7 +48,20 @@ class Setup extends React.Component<any, any> {
         }
     }
 
-    handleStartSimulation() {
+    handleStartSimulation = async () => {
+        var createdSimulation = await createSimulation({
+            name: "Simulation",
+            secondsDelay: this.state.secondsDelay,
+            scenarioFile: this.state.selectedScenarioFile,
+            strategy: 0,
+            chargeMethod: this.state.chargeMethod,
+            chargeRate: this.state.chargeRate,
+            fuel: this.state.fuel,
+            gallonsPerThrust: this.state.gallonsPerThrust,
+            gallonsPerSteer: this.state.gallonsPerSteer,
+            gallonsPerScan: this.state.gallonsPerScan,
+            gallonsPerPass: this.state.gallonsPerPass
+        });
         history.push('/Simulation');
     }
 
