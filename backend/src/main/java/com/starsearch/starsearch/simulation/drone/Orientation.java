@@ -1,5 +1,7 @@
 package com.starsearch.starsearch.simulation.drone;
 
+import java.util.Random;
+
 public enum Orientation {
     N,
     NE,
@@ -8,5 +10,12 @@ public enum Orientation {
     S,
     SW,
     W,
-    NW
+    NW;
+
+    private static Random randGenerator = new Random();
+
+
+    public static Orientation getRandomOrientation() {
+        return Orientation.values()[Math.abs(randGenerator.nextInt()) % Orientation.values().length];
+    }
 }

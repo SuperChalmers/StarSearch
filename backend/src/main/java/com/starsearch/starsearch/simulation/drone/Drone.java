@@ -46,7 +46,7 @@ public class Drone {
 
     private DroneAction getRandomAction() {
         return DroneAction.builder()
-                .orientation(orientation)
+                .orientation(Orientation.getRandomOrientation())
                 .coordinates(coordinates)
                 .action(Action.getRandomAction()) //Catch-all if no other action is allowed
                 .build();
