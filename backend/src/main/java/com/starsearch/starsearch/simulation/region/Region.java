@@ -37,7 +37,7 @@ public class Region {
         }
     }
 
-    public List<Space> scanAroundCoordinates(Coordinates coordinates) {
+    public List<Space> scanAroundCoordinates(Coordinates coordinates, boolean printScanResult) {
         List<Space> scanResults = new ArrayList<>();
         StringBuilder scanString = new StringBuilder("\n");
         //Parse through orientation enum (Starts at N and goes CW). Get space at each space adjacent to drone Space
@@ -51,7 +51,7 @@ public class Region {
                 scanString.append(space.getContents() + ",");
             }
         }
-        System.out.println(scanString.toString().substring(0, scanString.length() - 1).toLowerCase());
+        if (printScanResult) System.out.println(scanString.toString().substring(0, scanString.length() - 1).toLowerCase());
         return scanResults;
     }
 
