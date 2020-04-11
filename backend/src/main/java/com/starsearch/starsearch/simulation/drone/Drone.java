@@ -85,6 +85,7 @@ public class Drone {
             if (isSafe(space)) {
                 orientation = findNewOrientation(coordinates, space.getCoordinates());
                 droneAction.setAction(Action.STEER);
+                droneAction.setOrientation(orientation);
                 return droneAction;
             }
         }
@@ -105,7 +106,8 @@ public class Drone {
     }
 
     private Boolean isSafe(Space space) {
-        return (space.getContents() == Contents.STARS || space.getContents() == Contents.EMPTY) && !space.getDrone();
+        Boolean test = (space.getContents() == Contents.STARS || space.getContents() == Contents.EMPTY) && !space.getDrone();
+        return test;
     }
 
     private Orientation findNewOrientation(Coordinates current, Coordinates desired) {
