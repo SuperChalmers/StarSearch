@@ -419,7 +419,7 @@ Request:
 
 Response:
 ```json
-500 Success
+200 Success
 ```
 
 #### List Saved Simulations
