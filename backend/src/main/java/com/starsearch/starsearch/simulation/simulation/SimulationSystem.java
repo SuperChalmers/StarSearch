@@ -47,7 +47,7 @@ public class SimulationSystem {
     @NonNull private Integer fileVersion;
 
     private static final String DELIMITER = ",";
-    private static final String SAVE_FOLDER = "\\SaveSim\\";
+    private static final String SAVE_FOLDER = "/SaveSim/";
     private static final String SAVE_NAME = "savesim.csv";
     private static final Integer FILE_VERSION = 2;
 

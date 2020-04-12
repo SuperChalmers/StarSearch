@@ -41,7 +41,7 @@ public class SimulationController {
     @GetMapping(value="/simulation")
     public SimulationStateResponse loadSimulation(@RequestParam final String saveFileName) throws FileNotFoundException {
         final String current = System.getProperty("user.dir");
-        final String SAVE_FOLDER = "\\SaveSim\\";
+        final String SAVE_FOLDER = "/SaveSim/";
         final String SAVE_NAME = "savesim.csv";
         return createSimulationFromFile(current + SAVE_FOLDER + SAVE_NAME);
     }
@@ -83,7 +83,7 @@ public class SimulationController {
                                                              final int gallonsPerSteer, final int gallonsPerScan,
                                                              final int gallonsPerPass) throws FileNotFoundException {
         final String current = System.getProperty("user.dir");
-        simulationSystem = FileProcessor.createSimulation(current + "\\testScenarios\\" + scenarioFile, chargeRate,
+        simulationSystem = FileProcessor.createSimulation(current + "/testScenarios/" + scenarioFile, chargeRate,
                 initialFuel, gallonsPerThrust, gallonsPerSteer, gallonsPerScan, gallonsPerPass);
         return SimulationStateResponse.createResponseFromSimulationSystem(simulationSystem);
     }

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 public class GetSavedSimulationsController {
 
-    private static final String SAVE_FOLDER = "\\SaveSim\\";
+    private static final String SAVE_FOLDER = "/SaveSim/";
     private static final String SAVE_NAME = "savesim.csv";
 
     @GetMapping(value="/simulations")
