@@ -144,7 +144,7 @@ class Simulation extends React.Component<any, any> {
     }
 
     handleStopSimulation = async () => {
-        // await SimulationRequest.halt(this.state.id);
+        await SimulationRequest.stop(this.state.id);
     }
 
     displayText(text: any) {

@@ -1,15 +1,5 @@
 simulation
 
-## Available Variables
-
-`SIMULATION_NAME`: Any string defined by the user.
-
-`FILE`: String of a .txt text file with simulation configs.
-
-`STRATEGY_STRING`: 0 or 1, 0 = drone selects activity randomly, 1 = drone tries to pick the "best" action.
-
-`PATH_TO_FILE`: Local location of the file.
-
 ## Routes
 
 ### Simulation
@@ -349,6 +339,73 @@ Runs the next step of the simulation.
 
 Request:
 `GET /simulation/next`
+
+Response:
+```json
+{
+  "height": 2,
+  "width": 2,
+  "drones": [
+    {
+      "droneID": "d1",
+      "orientation": "NE",
+      "coordinates": {
+        "width": 0,
+        "height": 1
+      },
+      "strategy": 0
+    }
+  ],
+  "spaceMap": [
+    {
+      "coordinates": {
+        "width": 0,
+        "height": 0
+      },
+      "contents": "STARS",
+      "drone": false,
+      "isExplored": false,
+      "isKnown": false
+    },
+    {
+      "coordinates": {
+        "width": 1,
+        "height": 0
+      },
+      "contents": "STARS",
+      "drone": false,
+      "isExplored": false,
+      "isKnown": false
+    },
+    {
+      "coordinates": {
+        "width": 0,
+        "height": 1
+      },
+      "contents": "EMPTY",
+      "drone": true,
+      "isExplored": true,
+      "isKnown": true
+    },
+    {
+      "coordinates": {
+        "width": 1,
+        "height": 1
+      },
+      "contents": "STARS",
+      "drone": false,
+      "isExplored": false,
+      "isKnown": false
+    }
+  ]
+}
+```
+
+#### Fast Forward Simulation
+Fast-forwards through the simulation. Returns the final state of the space.
+
+Request:
+`GET /simulation/fast-forward`
 
 Response:
 ```json
