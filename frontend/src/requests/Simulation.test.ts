@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { nextStep, createSimulation, loadSimulation, getSimulations, halt } from './Simulation';
+import { nextStep, createSimulation, loadSimulation, getSimulations, stop } from './Simulation';
 
 jest.mock('axios');
 
@@ -12,12 +12,12 @@ describe('nextStep', () => {
     })
 })
 
-describe('halt', () => {
-    it('sends halt simulation request', async () => {
+describe('stop', () => {
+    it('sends stop simulation request', async () => {
         const data = {};
         axios.get.mockImplementationOnce(() => Promise.resolve(data));
 
-        await expect(halt(134)).resolves.toEqual(data);
+        await expect(stop(134)).resolves.toEqual(data);
     })
 })
 
