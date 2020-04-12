@@ -32,19 +32,20 @@ class Setup extends React.Component<any, any> {
     }
 
     handleStartSimulation = async () => {
-        // var createdSimulation = await createSimulation({
-        //     name: "Simulation",
-        //     secondsDelay: this.state.secondsDelay,
-        //     scenarioFile: this.state.selectedScenarioFile,
-        //     strategy: 0,
-        //     chargeMethod: this.state.chargeMethod,
-        //     chargeRate: this.state.chargeRate,
-        //     fuel: this.state.fuel,
-        //     gallonsPerThrust: this.state.gallonsPerThrust,
-        //     gallonsPerSteer: this.state.gallonsPerSteer,
-        //     gallonsPerScan: this.state.gallonsPerScan,
-        //     gallonsPerPass: this.state.gallonsPerPass
-        // });
+        var createdSimulation = await createSimulation({
+            name: "Simulation",
+            secondsDelay: this.state.secondsDelay,
+            scenarioFile: this.state.selectedScenarioFile,
+            strategy: 0,
+            chargeMethod: this.state.chargeMethod,
+            chargeRate: this.state.chargeRate,
+            fuel: this.state.fuel,
+            gallonsPerThrust: this.state.gallonsPerThrust,
+            gallonsPerSteer: this.state.gallonsPerSteer,
+            gallonsPerScan: this.state.gallonsPerScan,
+            gallonsPerPass: this.state.gallonsPerPass
+        });
+
         history.push('/Simulation');
     }
 
