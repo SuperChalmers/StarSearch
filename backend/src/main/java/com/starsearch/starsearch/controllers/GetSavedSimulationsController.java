@@ -19,7 +19,7 @@ public class GetSavedSimulationsController {
 
     @GetMapping(value="/simulations")
     public GetSavedSimulationsResponse getSavedSimulations() {
-        String current = System.getProperty("user.dir");
+        final String current = System.getProperty("user.dir");
         final File[] saveDirectory = new File(current + SAVE_FOLDER + SAVE_NAME).listFiles();
         final List<String> savedSimulations = Arrays.stream(saveDirectory).map(file -> prepCSVString(file.getName())).collect(Collectors.toList());
         return GetSavedSimulationsResponse.builder() //TODO what should this return

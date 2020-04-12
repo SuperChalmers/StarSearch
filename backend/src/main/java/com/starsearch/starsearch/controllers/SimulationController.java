@@ -33,13 +33,17 @@ public class SimulationController {
 
     @PostMapping(value="/simulation", consumes = "application/json", produces = "application/json")
     public SimulationStateResponse createSimulation(@RequestBody CreateSimulationRequest request) throws FileNotFoundException {
-        return createSimulationFromFile(request.getScenarioFile());
+        return createSimulationFromFile(request.getScenarioFile(), request.getChargeRate(), request.getFuel(),
+                request.getGallonsPerThrust(), request.getGallonsPerSteer(), request.getGallonsPerScan(),
+                request.getGallonsPerPass());
     }
 
     @GetMapping(value="/simulation")
     public SimulationStateResponse loadSimulation(@RequestParam final String saveFileName) throws FileNotFoundException {
-        final String SAVE_FILE_DIRECTORY = ".\\testScenarios\\"; //TODO change to real save file directory
-        return createSimulationFromFile(SAVE_FILE_DIRECTORY + saveFileName + ".csv");
+        final String current = System.getProperty("user.dir");
+        final String SAVE_FOLDER = "\\SaveSim\\";
+        final String SAVE_NAME = "savesim.csv";
+        return createSimulationFromFile(current + SAVE_FOLDER + SAVE_NAME);
     }
 
     @GetMapping(value = "/simulation/next")
@@ -70,8 +74,16 @@ public class SimulationController {
     }
 
     private SimulationStateResponse createSimulationFromFile(final String scenarioFile) throws FileNotFoundException {
-        //TODO fuel handling
         simulationSystem = FileProcessor.createSimulation(scenarioFile);
+        return SimulationStateResponse.createResponseFromSimulationSystem(simulationSystem);
+    }
+
+    private SimulationStateResponse createSimulationFromFile(final String scenarioFile, final int chargeRate,
+                                                             final int initialFuel, final int gallonsPerThrust,
+                                                             final int gallonsPerSteer, final int gallonsPerScan,
+                                                             final int gallonsPerPass) throws FileNotFoundException {
+        simulationSystem = FileProcessor.createSimulation(scenarioFile, chargeRate, initialFuel, gallonsPerThrust,
+                gallonsPerSteer, gallonsPerScan, gallonsPerPass);
         return SimulationStateResponse.createResponseFromSimulationSystem(simulationSystem);
     }
 }

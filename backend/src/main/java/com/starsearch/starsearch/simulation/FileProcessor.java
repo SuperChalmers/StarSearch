@@ -20,13 +20,17 @@ public class FileProcessor {
 
     private static final String DELIMITER = ",";
 
-    public static SimulationSystem createSimulation(String testFileName) throws FileNotFoundException {
+    public static SimulationSystem createSimulation(final String testFileName) throws FileNotFoundException {
+        return createSimulation(testFileName, 2, 10, 3, 2, 1,0);
+    }
+
+    public static SimulationSystem createSimulation(final String testFileName, int chargeRate, int initialFuel,
+                                                    int gallonsPerThrust, int gallonsPerSteer, int gallonsPerScan,
+                                                    int gallonsPerPass) throws FileNotFoundException {
 
         try {
             Scanner inputFile = new Scanner(new File(testFileName));
             Region region = createRegion(inputFile);
-            //todo:fuel need to pass the below values from the frontend.
-            int chargeRate = 2, initialFuel = 10, gallonsPerThrust = 3, gallonsPerSteer = 2, gallonsPerScan = 1, gallonsPerPass = 0;
             List<Drone> drones = createDrones(inputFile, region, initialFuel);
             List<Coordinates> suns = createSuns(inputFile, region);
 
