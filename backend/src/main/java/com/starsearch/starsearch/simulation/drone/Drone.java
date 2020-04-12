@@ -81,6 +81,17 @@ public class Drone {
             return droneAction;
         }
 
+        for(Space space : adjacentSpaces) { //is there an unexplored safe space go there first
+            if(isSafe(space)){
+                if(!space.getIsExplored()){
+                    orientation = findNewOrientation(coordinates, space.getCoordinates());
+                    droneAction.setAction(Action.STEER);
+                    droneAction.setOrientation(orientation);
+                    return droneAction;                       
+                }
+            }
+        }
+
         for (Space space : adjacentSpaces) { //If no, steer towards first safe known space
             if (isSafe(space)) {
                 orientation = findNewOrientation(coordinates, space.getCoordinates());
