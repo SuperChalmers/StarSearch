@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Form, Dropdown, DropdownButton, FormControl } from 'react-bootstrap';
+import { Button, Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import history from './../history';
 import './Setup.scss';
 import { isUndefined } from 'util';
@@ -10,30 +10,13 @@ class Setup extends React.Component<any, any> {
         super(props);
         this.state = {
             selectedScenarioFile: 'Select Scenario File',
-            chargeRate: '',
-            fuelCapacity: '',
-            gallonsPerThrust: '',
-            gallonsPerSteer: '',
-            gallonsPerScan: '',
-            gallonsPerPass: '',
+            chargeRate: 1,
+            fuelCapacity: 1,
+            gallonsPerThrust: 1,
+            gallonsPerSteer: 1,
+            gallonsPerScan: 1,
+            gallonsPerPass: 1,
         };
-    }
-
-    handleTextChange = (event: any) => {
-        const target = event.target;
-        const name = target.name;
-        var value;
-
-        if (name === "chargeRate") { value = target.value };
-        if (name === "fuelCapacity") { value = target.value };
-        if (name === "gallonsPerThrust") { value = target.value };
-        if (name === "gallonsPerSteer") { value = target.value };
-        if (name === "gallonsPerScan") { value = target.value };
-        if (name === "gallonsPerPass") { value = target.value };
-
-        this.setState({
-            [name]: value
-        });
     }
 
     handleFileChange = (event: any) => {
@@ -49,19 +32,19 @@ class Setup extends React.Component<any, any> {
     }
 
     handleStartSimulation = async () => {
-        var createdSimulation = await createSimulation({
-            name: "Simulation",
-            secondsDelay: this.state.secondsDelay,
-            scenarioFile: this.state.selectedScenarioFile,
-            strategy: 0,
-            chargeMethod: this.state.chargeMethod,
-            chargeRate: this.state.chargeRate,
-            fuel: this.state.fuel,
-            gallonsPerThrust: this.state.gallonsPerThrust,
-            gallonsPerSteer: this.state.gallonsPerSteer,
-            gallonsPerScan: this.state.gallonsPerScan,
-            gallonsPerPass: this.state.gallonsPerPass
-        });
+        // var createdSimulation = await createSimulation({
+        //     name: "Simulation",
+        //     secondsDelay: this.state.secondsDelay,
+        //     scenarioFile: this.state.selectedScenarioFile,
+        //     strategy: 0,
+        //     chargeMethod: this.state.chargeMethod,
+        //     chargeRate: this.state.chargeRate,
+        //     fuel: this.state.fuel,
+        //     gallonsPerThrust: this.state.gallonsPerThrust,
+        //     gallonsPerSteer: this.state.gallonsPerSteer,
+        //     gallonsPerScan: this.state.gallonsPerScan,
+        //     gallonsPerPass: this.state.gallonsPerPass
+        // });
         history.push('/Simulation');
     }
 
@@ -77,55 +60,106 @@ class Setup extends React.Component<any, any> {
         return (
             <div>
                 <div className="block">
-                    FUEL
+                    SETUP
+
 
                     <div className="row">
                         <div className="colLeft">
-                            <Form.Control name="chargeRate" type="text" onChange={this.handleTextChange} />
+                            <DropdownButton
+                                id="dropdown-basic-button"
+                                title={this.state.chargeRate}
+                                onSelect={(e: any) => { this.setState({ chargeRate: e }) }}
+                            >
+                                <Dropdown.Item eventKey="1">1</Dropdown.Item>
+                                <Dropdown.Item eventKey="2">2</Dropdown.Item>
+                                <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <this.displayText text="charge rate (gallons per turn)" />
                     </div>
 
+
                     <div className="row">
                         <div className="colLeft">
-                            <Form.Control name="fuelCapacity" type="text" onChange={this.handleTextChange} />
+                            <DropdownButton
+                                id="dropdown-basic-button"
+                                title={this.state.fuelCapacity}
+                                onSelect={(e: any) => { this.setState({ fuelCapacity: e }) }}
+                            >
+                                <Dropdown.Item eventKey="1">1</Dropdown.Item>
+                                <Dropdown.Item eventKey="2">2</Dropdown.Item>
+                                <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <this.displayText text="fuel (gallons)" />
                     </div>
 
+
                     <div className="row">
                         <div className="colLeft">
-                            <Form.Control name="gallonsPerThrust" type="text" onChange={this.handleTextChange} />
+                            <DropdownButton
+                                id="dropdown-basic-button"
+                                title={this.state.gallonsPerThrust}
+                                onSelect={(e: any) => { this.setState({ gallonsPerThrust: e }) }}
+                            >
+                                <Dropdown.Item eventKey="1">1</Dropdown.Item>
+                                <Dropdown.Item eventKey="2">2</Dropdown.Item>
+                                <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <this.displayText text="gallons per THRUST (each step)" />
                     </div>
 
+
                     <div className="row">
                         <div className="colLeft">
-                            <Form.Control name="gallonsPerSteer" type="text" onChange={this.handleTextChange} />
+                            <DropdownButton
+                                id="dropdown-basic-button"
+                                title={this.state.gallonsPerSteer}
+                                onSelect={(e: any) => { this.setState({ gallonsPerSteer: e }) }}
+                            >
+                                <Dropdown.Item eventKey="1">1</Dropdown.Item>
+                                <Dropdown.Item eventKey="2">2</Dropdown.Item>
+                                <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <this.displayText text="gallons per STEER (any direction)" />
                     </div>
 
+
                     <div className="row">
                         <div className="colLeft">
-                            <Form.Control name="gallonsPerScan" type="text" onChange={this.handleTextChange} />
+                            <DropdownButton
+                                id="dropdown-basic-button"
+                                title={this.state.gallonsPerScan}
+                                onSelect={(e: any) => { this.setState({ gallonsPerScan: e }) }}
+                            >
+                                <Dropdown.Item eventKey="1">1</Dropdown.Item>
+                                <Dropdown.Item eventKey="2">2</Dropdown.Item>
+                                <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <this.displayText text="gallons per SCAN" />
                     </div>
 
+
                     <div className="row">
                         <div className="colLeft">
-                            <Form.Control name="gallonsPerPass" type="text" onChange={this.handleTextChange} />
+                            <DropdownButton
+                                id="dropdown-basic-button"
+                                title={this.state.gallonsPerPass}
+                                onSelect={(e: any) => { this.setState({ gallonsPerPass: e }) }}
+                            >
+                                <Dropdown.Item eventKey="1">1</Dropdown.Item>
+                                <Dropdown.Item eventKey="2">2</Dropdown.Item>
+                                <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <this.displayText text="gallons per PASS" />
                     </div>
 
-                </div>
-
-                <div className="block">
                     <div className="row">
-                        <div className="colLeft">
+                        <div className="colRight">
                             <Form>
                                 <Form.File
                                     id="selectScenario"
@@ -136,8 +170,8 @@ class Setup extends React.Component<any, any> {
                                 />
                             </Form>
                         </div>
-                        <div className="colRight" />
                     </div>
+
                 </div>
 
                 <div className="block">

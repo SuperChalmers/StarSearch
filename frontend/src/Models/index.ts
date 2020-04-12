@@ -75,7 +75,6 @@ export class Simulation {
             }
         }
 
-        console.log(safeSquares);
         return safeSquares;
     }
 

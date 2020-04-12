@@ -139,8 +139,12 @@ class Simulation extends React.Component<any, any> {
         });
     }
 
+    handleFastForward = async () => {
+        // TODO: skip to last state of simulation
+    }
+
     handleStopSimulation = async () => {
-        await SimulationRequest.halt(this.state.id);
+        // await SimulationRequest.halt(this.state.id);
     }
 
     displayText(text: any) {
@@ -224,6 +228,11 @@ class Simulation extends React.Component<any, any> {
                         <Button size="lg" className="button" onClick={this.handleNextTurn} >
                             NEXT TURN
                         </Button>
+
+                        <Button size="lg" className="button" onClick={this.handleFastForward} >
+                            FAST FORWARD
+                        </Button>
+
                         <Button size="lg" className="button" onClick={this.handleStopSimulation}>
                             STOP
                         </Button>
