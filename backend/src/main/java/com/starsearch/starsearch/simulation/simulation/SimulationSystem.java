@@ -47,6 +47,8 @@ public class SimulationSystem {
     @NonNull private Integer fileVersion;
 
     private static final String DELIMITER = ",";
+    private static final String SAVE_FOLDER = "\\SaveSim\\";
+    private static final String SAVE_NAME = "savesim.csv";
     private static final Integer FILE_VERSION = 2;
 
     public SimulationStateResponse nextTurn() {
@@ -54,8 +56,10 @@ public class SimulationSystem {
         return SimulationStateResponse.createResponseFromSimulationSystem(this);
     }
 
-    public void stop() {
+    public void stop() throws Exception {
         //TODO stop simulation in current state and output file
+        String current = System.getProperty("user.dir");
+        writeSimulation(current + SAVE_FOLDER + SAVE_NAME);
     }
 
     public SimulationSummary runSimulation(List<DroneAction> mockDroneActionsForUT) {

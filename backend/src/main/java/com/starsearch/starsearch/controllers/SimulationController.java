@@ -22,7 +22,7 @@ public class SimulationController {
     private SimulationSystem simulationSystem = null; //Must be initialized by one of the create routes
 
     @PostMapping(value="/test")
-    public void testHook(@RequestBody final String filename) throws FileNotFoundException {
+    public void testHook(@RequestBody final String filename) throws FileNotFoundException, Exception {
         simulationSystem = FileProcessor.createSimulation(filename);
         SimulationSummary summary = simulationSystem.runSimulation(null);
         System.out.println(String.valueOf(summary.getSizeOfRegion()) + ","
@@ -52,7 +52,7 @@ public class SimulationController {
     }
 
     @GetMapping(value = "/simulation/stop")
-    public void stopSimulation() {
+    public void stopSimulation() throws Exception {
         try {
             simulationSystem.stop();
         } catch (NullPointerException e) {
