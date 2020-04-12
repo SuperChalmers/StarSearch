@@ -82,8 +82,8 @@ public class SimulationController {
                                                              final int initialFuel, final int gallonsPerThrust,
                                                              final int gallonsPerSteer, final int gallonsPerScan,
                                                              final int gallonsPerPass) throws FileNotFoundException {
-        simulationSystem = FileProcessor.createSimulation(scenarioFile, chargeRate, initialFuel, gallonsPerThrust,
-                gallonsPerSteer, gallonsPerScan, gallonsPerPass);
+        simulationSystem = FileProcessor.createSimulation(".\\testScenarios\\" + scenarioFile, chargeRate,
+                initialFuel, gallonsPerThrust, gallonsPerSteer, gallonsPerScan, gallonsPerPass);
         return SimulationStateResponse.createResponseFromSimulationSystem(simulationSystem);
     }
 }
