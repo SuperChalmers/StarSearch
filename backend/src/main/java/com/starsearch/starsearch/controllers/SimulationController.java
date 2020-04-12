@@ -24,7 +24,7 @@ public class SimulationController {
     @PostMapping(value="/test")
     public void testHook(@RequestBody final String filename) throws FileNotFoundException, Exception {
         simulationSystem = FileProcessor.createSimulation(filename);
-        SimulationSummary summary = simulationSystem.runSimulation(null);
+        SimulationSummary summary = simulationSystem.runSimulation(null, false);
         System.out.println((summary.getSizeOfRegion()) + ","
                 + (summary.getNumberOfSafeSquares()) + ","
                 + (summary.getNumberOfExploredSafeSquares())

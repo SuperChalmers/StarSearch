@@ -14,12 +14,15 @@ import java.util.stream.Collectors;
 @RestController
 public class GetSavedSimulationsController {
 
+    private static final String SAVE_FOLDER = "\\SaveSim\\";
+    private static final String SAVE_NAME = "savesim.csv";
+
     @GetMapping(value="/simulations")
     public GetSavedSimulationsResponse getSavedSimulations() {
-        final String SAVE_FILE_DIRECTORY = ".\\testScenarios"; //TODO change to real save file directory
-        final File[] saveDirectory = new File(SAVE_FILE_DIRECTORY).listFiles();
+        String current = System.getProperty("user.dir");
+        final File[] saveDirectory = new File(current + SAVE_FOLDER + SAVE_NAME).listFiles();
         final List<String> savedSimulations = Arrays.stream(saveDirectory).map(file -> prepCSVString(file.getName())).collect(Collectors.toList());
-        return GetSavedSimulationsResponse.builder()
+        return GetSavedSimulationsResponse.builder() //TODO what should this return
                 .simulations(savedSimulations)
                 .build();
     }

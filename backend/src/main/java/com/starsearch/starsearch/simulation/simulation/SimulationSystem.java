@@ -52,22 +52,21 @@ public class SimulationSystem {
     private static final Integer FILE_VERSION = 2;
 
     public SimulationStateResponse nextTurn() {
-        //TODO next turn logic replacing loop below
+        runSimulation(null, true);
         return SimulationStateResponse.createResponseFromSimulationSystem(this);
     }
 
     public SimulationStateResponse fastForward() {
-        //TODO fast forward turn logic replacing loop below
+        runSimulation(null, false);
         return SimulationStateResponse.createResponseFromSimulationSystem(this);
     }
 
     public void stop() throws Exception {
-        //TODO stop simulation in current state and output file
         String current = System.getProperty("user.dir");
         writeSimulation(current + SAVE_FOLDER + SAVE_NAME);
     }
 
-    public SimulationSummary runSimulation(List<DroneAction> mockDroneActionsForUT) {
+    public SimulationSummary runSimulation(List<DroneAction> mockDroneActionsForUT, boolean turn) {
         SimulationAccessor simulationAccessor = new SimulationAccessor(this);
         do {
             for (Iterator<Drone> iterator = drones.iterator(); iterator.hasNext();) {
@@ -101,7 +100,7 @@ public class SimulationSystem {
                 }
                 chargeDroneIfNecessary(drone);
             }
-        } while (simulationIsNotOver());
+        } while (simulationIsNotOver() && !turn);
         return SimulationSummary.builder()
                 .numberOfCompleteTurnsTaken(turnCounter)
                 .numberOfExploredSafeSquares(spaceExplored)

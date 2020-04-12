@@ -133,7 +133,7 @@ class StarsearchApplicationTests {
 
         // Test drone should be able to get charged if it's next to a sun.
         // the mock region makes the drone0 at (0,0), drone1 at (1,1), and sun at (2,2)
-        simulation.runSimulation(mockDroneActions);
+        simulation.runSimulation(mockDroneActions, false);
         assert drone0.getFuel() == MOCKDEFAULTFUEL;
         assert drone1.getFuel() == MOCKDEFAULTFUEL+MOCKDEFAULTCHARGERATE*(MOCKDEFAULTTURNLIMIT+1);
 
@@ -149,7 +149,7 @@ class StarsearchApplicationTests {
                 .coordinates(drone1.getCoordinates())
                 .action(Action.THRUST2)
                 .build());
-        simulation.runSimulation(mockDroneActions);
+        simulation.runSimulation(mockDroneActions, false);
         assert drone0.getCoordinates().getWidth()==0 && drone0.getCoordinates().getHeight()==0;
         assert drone1.getCoordinates().getWidth()==0 && drone1.getCoordinates().getHeight()==1;
         assert drone1.getFuel() == 1;
@@ -175,7 +175,7 @@ class StarsearchApplicationTests {
                 .build());
 
         drone0.setFuel(0);
-        simulation.runSimulation(mockDroneActions);
+        simulation.runSimulation(mockDroneActions, false);
         // the mock region makes the drone0 at (0,0), drone1 at (1,1), and sun at (2,2)
         assert drone0.getToDelete()==true;
         assert drone1.getToDelete()==true;
