@@ -25,10 +25,10 @@ public class SimulationController {
     public void testHook(@RequestBody final String filename) throws FileNotFoundException, Exception {
         simulationSystem = FileProcessor.createSimulation(filename);
         SimulationSummary summary = simulationSystem.runSimulation(null);
-        System.out.println(String.valueOf(summary.getSizeOfRegion()) + ","
-                + String.valueOf(summary.getNumberOfSafeSquares()) + ","
-                + String.valueOf(summary.getNumberOfExploredSafeSquares())
-                + "," + String.valueOf(summary.getNumberOfCompleteTurnsTaken()));
+        System.out.println((summary.getSizeOfRegion()) + ","
+                + (summary.getNumberOfSafeSquares()) + ","
+                + (summary.getNumberOfExploredSafeSquares())
+                + "," + (summary.getNumberOfCompleteTurnsTaken()));
     }
 
     @PostMapping(value="/simulation", consumes = "application/json", produces = "application/json")
@@ -46,6 +46,15 @@ public class SimulationController {
     public SimulationStateResponse nextTurn() {
         try {
             return simulationSystem.nextTurn();
+        } catch (NullPointerException e) {
+            throw new RuntimeException("Simulation has not been created yet.", e);
+        }
+    }
+
+    @GetMapping(value = "/simulation/fast-forward")
+    public SimulationStateResponse fastForwardSimulation() throws Exception {
+        try {
+            return simulationSystem.fastForward();
         } catch (NullPointerException e) {
             throw new RuntimeException("Simulation has not been created yet.", e);
         }

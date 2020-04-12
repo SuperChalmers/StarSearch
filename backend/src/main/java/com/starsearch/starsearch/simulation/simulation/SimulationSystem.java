@@ -56,6 +56,11 @@ public class SimulationSystem {
         return SimulationStateResponse.createResponseFromSimulationSystem(this);
     }
 
+    public SimulationStateResponse fastForward() {
+        //TODO fast forward turn logic replacing loop below
+        return SimulationStateResponse.createResponseFromSimulationSystem(this);
+    }
+
     public void stop() throws Exception {
         //TODO stop simulation in current state and output file
         String current = System.getProperty("user.dir");
