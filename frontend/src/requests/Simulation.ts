@@ -26,9 +26,9 @@ export async function nextStep() {
     return await instance.get(`/simulation/next`);
 }
 
-// Request backend halts simulation
-export async function halt(simulationId: number) {
-    return await axios.get(`/simulation/${simulationId}/halt`);
+// Request backend stop simulation
+export async function stop(simulationId: number) {
+    return await axios.get(`/simulation/stop`);
 }
 
 // Create a simulation
