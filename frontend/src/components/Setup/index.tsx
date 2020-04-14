@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { Button, Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import history from './../history';
-import './Setup.scss';
-import { isUndefined } from 'util';
+import './index.scss';
 import { createSimulation } from '../../requests/Simulation';
 
-class Setup extends React.Component<any, any> {
+export default class SetupComponent extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -186,5 +185,3 @@ class Setup extends React.Component<any, any> {
         );
     }
 }
-
-export default Setup;

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import HomeComponent from './Home';
-import Setup from './Setup/Setup';
+import SetupComponent from './Setup';
 import Simulation from './Simulation/Simulation';
 import history from './history';
 import { Container } from 'react-bootstrap';
@@ -12,7 +12,7 @@ function App() {
     <Router history={history}>
       <Switch>
         <Route path="/" exact component={HomeComponent} />
-        <Route path="/Setup" exact component={Setup} />
+        <Route path="/Setup" exact component={SetupComponent} />
         <Route path="/Simulation" exact component={Simulation} />
 
         {/*
