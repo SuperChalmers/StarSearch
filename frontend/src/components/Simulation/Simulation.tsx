@@ -29,14 +29,21 @@ class Simulation extends React.Component<any, any> {
         var simulationArray = convertSimulationResponse(simulation);
         var simulationModel = new SimulationModel("1", simulationArray);
 
-        await this.setState({
+        this.setState({
             turnsTaken: simulation.turnsTaken,
             simulation: simulationModel
         });
     }
 
     handleFastForward = async () => {
-        // TODO: skip to last state of simulation
+        var simulation = await SimulationRequest.fastForward();
+        var simulationArray = convertSimulationResponse(simulation);
+        var simulationModel = new SimulationModel("1", simulationArray);
+
+        this.setState({
+            turnsTaken: simulation.turnsTaken,
+            simulation: simulationModel
+        });
     }
 
     handleStopSimulation = async () => {

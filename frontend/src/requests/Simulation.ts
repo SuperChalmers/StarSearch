@@ -27,9 +27,16 @@ export async function nextStep() {
     return response.data;
 }
 
+// Request backend completes the entire simulation
+export async function fastForward() {
+    var response = await instance.get(`/simulation/fast-forward`);
+    return response.data;
+}
+
 // Request backend stop simulation
 export async function stop(simulationId: number) {
-    return await axios.get(`/simulation/stop`);
+    var response = await instance.get(`/simulation/stop`);
+    return response.data;
 }
 
 // Create a simulation
@@ -40,10 +47,10 @@ export async function createSimulation(simulation: CreateSimulationRequest) {
 
 // Load single simulation
 export async function loadSimulation(simulationId: number) {
-    return await axios.get(`/simulation/${simulationId}`);
+    return await instance.get(`/simulation/${simulationId}`);
 }
 
 // Load list of available simulations
 export async function getSimulations() {
-    return await axios.get(`/simulations`);
+    return await instance.get(`/simulations`);
 }
