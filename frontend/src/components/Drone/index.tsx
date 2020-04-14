@@ -3,7 +3,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import "./index.scss";
 
-class Drone extends React.Component<any, any> {
+class DroneComponent extends React.Component<any, any> {
     getIconHtml = function(rocketDirection: string, active: boolean = false) {
         let html;
         let droneClass;
@@ -44,4 +44,4 @@ class Drone extends React.Component<any, any> {
     }
 }
 
-export default Drone;
+export default DroneComponent;

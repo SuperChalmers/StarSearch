@@ -1,4 +1,4 @@
-import { Direction } from "../Types"
+import { Direction } from "./types"
 
 export class SpaceEntity {
     id: string;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { nextStep, createSimulation, loadSimulation, getSimulations, stop } from './Simulation';
+import { nextStep, createSimulation, loadSimulation, getSimulations, stop } from './requests';
 
 jest.mock('axios');
 

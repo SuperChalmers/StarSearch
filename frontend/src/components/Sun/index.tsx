@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-class Sun extends React.Component<any, any> {
+export default class SunComponent extends React.Component<any, any> {
     render() {
         return (
             <svg className="bi bi-sun" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -10,5 +10,3 @@ class Sun extends React.Component<any, any> {
         );
     }
 }
-
-export default Sun;

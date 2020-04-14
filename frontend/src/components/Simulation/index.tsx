@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import history from './../history';
 
-import './Simulation.scss';
-import SpaceEntity from '../SpaceEntity';
-import * as SimulationRequest from '../../requests/Simulation';
-import { convertSimulationResponse } from '../../helper/helpers';
-import { Simulation as SimulationModel } from '../../Models/SimulationModel';
+import './index.scss';
+import SpaceEntityComponent from '../SpaceEntity';
+import * as SimulationRequest from '../../requests';
+import { convertSimulationResponse } from '../../helpers';
+import { Simulation as SimulationModel } from '../../models';
 
-class Simulation extends React.Component<any, any> {
+export default class SimulationComponent extends React.Component<any, any> {
 
     constructor(props: any) {
         super(props);
@@ -88,7 +88,7 @@ class Simulation extends React.Component<any, any> {
 
                     columns.push(
                         <td key={`${rowIndex}-row-${columnIndex}-column`}>
-                            <SpaceEntity
+                            <SpaceEntityComponent
                                 direction={spaceEntity.direction}
                                 type={spaceEntity.type}
                                 active={spaceEntity.active}
@@ -96,7 +96,7 @@ class Simulation extends React.Component<any, any> {
                                 explored={spaceEntity.explored}
                                 known={spaceEntity.known}
                                 fuel={spaceEntity.fuel}>
-                            </SpaceEntity>
+                            </SpaceEntityComponent>
                         </td>
                     )
                 }
@@ -164,5 +164,3 @@ class Simulation extends React.Component<any, any> {
         );
     }
 }
-
-export default Simulation;
