@@ -271,7 +271,7 @@ Response:
 Loads an existing saved simulation.
 
 Request:
-`GET /simulation/[SIMULATION_ID]`
+`GET /simulation`
 
 Response:
 ```json

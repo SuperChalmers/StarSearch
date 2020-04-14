@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Table, Button } from 'react-bootstrap';
+import history from './../history';
 
 import './Simulation.scss';
 import SpaceEntity from '../SpaceEntity';
@@ -48,6 +49,8 @@ class Simulation extends React.Component<any, any> {
 
     handleStopSimulation = async () => {
         await SimulationRequest.stop(this.state.id);
+
+        history.replace('/');
     }
 
     displayText(text: any) {

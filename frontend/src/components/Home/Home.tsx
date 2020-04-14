@@ -2,14 +2,16 @@ import * as React from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import history from './../history';
 import './Home.scss';
+import { loadSimulation } from '../../requests/Simulation';
 
 class Home extends React.Component<any, any> {
     goToSetup() {
         history.push('/Setup');
     }
 
-    resumeSimulation() {
-        history.push('/Simulation');
+    async resumeSimulation () {
+        var simulation = await loadSimulation();
+        history.push('/Simulation', { simulation: simulation });
     }
 
     render() {

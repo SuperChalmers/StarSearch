@@ -39,11 +39,13 @@ public class SimulationController {
     }
 
     @GetMapping(value="/simulation")
-    public SimulationStateResponse loadSimulation(@RequestParam final String saveFileName) throws FileNotFoundException {
+    public SimulationStateResponse loadSimulation() throws FileNotFoundException {
         final String current = System.getProperty("user.dir");
+        // Remove '/backend' from the path.
+        String projectRoot = current.substring(0, current.length() - 8);
         final String SAVE_FOLDER = "/SaveSim/";
         final String SAVE_NAME = "savesim.csv";
-        return createSimulationFromFile(current + SAVE_FOLDER + SAVE_NAME);
+        return createSimulationFromFile(projectRoot + SAVE_FOLDER + SAVE_NAME);
     }
 
     @GetMapping(value = "/simulation/next")
