@@ -23,7 +23,8 @@ export interface CreateSimulationRequest {
 
 // Request backend executes next step
 export async function nextStep() {
-    return await instance.get(`/simulation/next`);
+    var response = await instance.get(`/simulation/next`);
+    return response.data;
 }
 
 // Request backend stop simulation
@@ -33,7 +34,8 @@ export async function stop(simulationId: number) {
 
 // Create a simulation
 export async function createSimulation(simulation: CreateSimulationRequest) {
-    return await instance.post('/simulation', simulation);
+    var response =  await instance.post('/simulation', simulation);
+    return response.data;
 }
 
 // Load single simulation
