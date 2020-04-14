@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import history from './../history';
 
-import './Simulation.scss';
+import './index.scss';
 import SpaceEntity from '../SpaceEntity';
 import * as SimulationRequest from '../../requests/Simulation';
 import { convertSimulationResponse } from '../../helper/helpers';
 import { Simulation as SimulationModel } from '../../Models/SimulationModel';
 
-class Simulation extends React.Component<any, any> {
+export default class SimulationComponent extends React.Component<any, any> {
 
     constructor(props: any) {
         super(props);
@@ -164,5 +164,3 @@ class Simulation extends React.Component<any, any> {
         );
     }
 }
-
-export default Simulation;
