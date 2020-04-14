@@ -1,141 +1,37 @@
 import * as React from 'react';
-import * as _ from 'lodash';
-import { Table, Button, Form, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 
 import './Simulation.scss';
 import SpaceEntity from '../SpaceEntity';
 import * as SimulationRequest from '../../requests/Simulation';
 import { convertSimulationResponse } from '../../helper/helpers';
-import { Simulation as SimulationModel } from '../../Models';
+import { Simulation as SimulationModel } from '../../Models/SimulationModel';
 
 class Simulation extends React.Component<any, any> {
 
     constructor(props: any) {
         super(props);
+
+        var simulationArray = convertSimulationResponse(this.props.location.state.simulation);
+        var simulationModel = new SimulationModel("1", simulationArray);
+
         this.state = {
-            safeSquares: '',
-            exploredSquares: '',
-            turnsTaken: '',
-            simulation: {}
+            safeSquares: simulationModel.getSafeSquares(),
+            exploredSquares: simulationModel.getExploredSquares(),
+            turnsTaken: this.props.location.state.simulation.turnsTaken,
+            simulation: simulationModel
         };
-    }
-
-    async componentDidMount() {
-        var simulation = await this.updateSimulationState();
-
-        this.setState({
-            simulation: simulation
-        })
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (!_.isEqual(this.state.simulation, prevState.simulation)) {
-            this.updateSimulationState();
-        }
-    }
-
-    updateSimulationState = async () => {
-        // Stub for rest request.
-        var stub = {
-            id: "123",
-            height: 2,
-            width: 3,
-            drones: [
-                {
-                    droneID: "d0",
-                    orientation: "N",
-                    coordinates: {
-                        width: 2,
-                        height: 1
-                    },
-                    strategy: 0,
-                    fuel: 0
-                },
-                {
-                    droneID: "d1",
-                    orientation: "SE",
-                    coordinates: {
-                        width: 1,
-                        height: 1
-                    },
-                    strategy: 0,
-                    fuel: 1
-                }
-            ],
-            spaceMap: [
-                {
-                    coordinates: {
-                        width: 0,
-                        height: 0
-                    },
-                    contents: "STARS",
-                    drone: false,
-                    isExplored: true,
-                    isKnown: true
-                },
-                {
-                    coordinates: {
-                        width: 1,
-                        height: 0
-                    },
-                    contents: "STARS",
-                    drone: false,
-                    isExplored: false,
-                    isKnown: true
-                },
-                {
-                    coordinates: {
-                        width: 2,
-                        height: 0
-                    },
-                    contents: "STARS",
-                    drone: false,
-                    isExplored: false,
-                    isKnown: false
-                },
-                {
-                    coordinates: {
-                        width: 0,
-                        height: 1
-                    },
-                    contents: "EMPTY",
-                    drone: false,
-                    isExplored: false,
-                    isKnown: false
-                },
-                {
-                    coordinates: {
-                        width: 1,
-                        height: 1
-                    },
-                    contents: "DRONE",
-                    drone: true,
-                    isExplored: true,
-                    isKnown: false
-                },
-                {
-                    coordinates: {
-                        width: 2,
-                        height: 1
-                    },
-                    contents: "DRONE",
-                    drone: true,
-                    isExplored: true,
-                    isKnown: false
-                }
-            ]
-        }
-
-        var simulationArray = convertSimulationResponse(stub);
-
-        return new SimulationModel(stub.id, simulationArray);
     }
 
     handleNextTurn = async () => {
         // Get next state from the server.
-        var newSimulationState = await SimulationRequest.nextStep();
-        this.setState({
-            simulation: newSimulationState
+        var simulation = await SimulationRequest.nextStep();
+        var simulationArray = convertSimulationResponse(simulation);
+        var simulationModel = new SimulationModel("1", simulationArray);
+
+        await this.setState({
+            turnsTaken: simulation.turnsTaken,
+            simulation: simulationModel
         });
     }
 
@@ -225,7 +121,7 @@ class Simulation extends React.Component<any, any> {
 
                 <div className="blockActions">
                     <div className="colAction">
-                        <Button size="lg" className="button" onClick={this.handleNextTurn} >
+                        <Button size="lg" className="button" onClick={() => this.handleNextTurn()} >
                             NEXT TURN
                         </Button>
 
@@ -248,9 +144,9 @@ class Simulation extends React.Component<any, any> {
                         <div className="reportValues">
                             {this.displayText(this.state.simulation.width)}
                             {this.displayText(this.state.simulation.height)}
-                            {this.displayText(this.state.simulation.safeSquares)}
-                            {this.displayText(this.state.simulation.exploredSquares)}
-                            {this.displayText("TODO")}
+                            {this.displayText(this.state.safeSquares)}
+                            {this.displayText(this.state.exploredSquares)}
+                            {this.displayText(this.state.turnsTaken)}
                         </div>
                     </div>
                 </div>

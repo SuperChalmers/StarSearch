@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Overlay, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import "./index.scss";
 
