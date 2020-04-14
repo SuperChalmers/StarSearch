@@ -1,7 +1,6 @@
 import * as React from 'react';
-import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
 
-class Starfield extends React.Component<any, any> {
+export default class StarfieldComponent extends React.Component<any, any> {
     getIconHtml = function(explored: boolean) {
         let html;
         
@@ -30,5 +29,3 @@ class Starfield extends React.Component<any, any> {
         );
     }
 }
-
-export default Starfield;
