@@ -4,9 +4,9 @@ import history from './../history';
 
 import './index.scss';
 import SpaceEntityComponent from '../SpaceEntity';
-import * as SimulationRequest from '../../requests/Simulation';
-import { convertSimulationResponse } from '../../helper/helpers';
-import { Simulation as SimulationModel } from '../../Models/SimulationModel';
+import * as SimulationRequest from '../../requests';
+import { convertSimulationResponse } from '../../helpers';
+import { Simulation as SimulationModel } from '../../models';
 
 export default class SimulationComponent extends React.Component<any, any> {
 

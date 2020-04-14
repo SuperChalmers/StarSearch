@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import history from './../history';
 import './index.scss';
-import { loadSimulation } from '../../requests/Simulation';
+import { loadSimulation } from '../../requests';
 
 export default class HomeComponent extends React.Component<any, any> {
     goToSetup() {

@@ -1,5 +1,5 @@
-import { Simulation } from './SimulationModel';
-import { Direction } from '../Types';
+import { Simulation } from './models';
+import { Direction } from './types';
 
 describe('createSimulation', () => {
     it('Creates a grid', () => {

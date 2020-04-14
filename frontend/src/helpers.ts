@@ -1,5 +1,5 @@
-import { Direction, DroneResponse, SpaceElementResponse } from "../Types"
-import { SpaceEntity } from "../Models/SimulationModel"
+import { Direction, DroneResponse, SpaceElementResponse } from "./types"
+import { SpaceEntity } from "./models"
 
 
 export function convertSimulationResponse(simulationResponse: any): Array<Array<SpaceEntity>> {

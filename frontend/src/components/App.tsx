@@ -4,7 +4,6 @@ import HomeComponent from './Home';
 import SetupComponent from './Setup';
 import SimulationComponent from './Simulation';
 import history from './history';
-import { Container } from 'react-bootstrap';
 import { Router, Switch, Route } from 'react-router-dom';
 
 function App() {

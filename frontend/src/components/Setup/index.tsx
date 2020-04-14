@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import history from './../history';
 import './index.scss';
-import { createSimulation } from '../../requests/Simulation';
+import { createSimulation } from '../../requests';
 
 export default class SetupComponent extends React.Component<any, any> {
     constructor(props: any) {
