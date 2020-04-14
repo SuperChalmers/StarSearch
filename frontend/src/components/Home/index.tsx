@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import history from './../history';
-import './Home.scss';
+import './index.scss';
 import { loadSimulation } from '../../requests/Simulation';
 
-class Home extends React.Component<any, any> {
+export default class HomeComponent extends React.Component<any, any> {
     goToSetup() {
         history.push('/Setup');
     }
@@ -30,5 +30,3 @@ class Home extends React.Component<any, any> {
         );
     }
 }
-
-export default Home;

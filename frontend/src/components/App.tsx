@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Home from './Home/Home';
+import HomeComponent from './Home';
 import Setup from './Setup/Setup';
 import Simulation from './Simulation/Simulation';
 import history from './history';
@@ -11,7 +11,7 @@ function App() {
   return (
     <Router history={history}>
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route path="/" exact component={HomeComponent} />
         <Route path="/Setup" exact component={Setup} />
         <Route path="/Simulation" exact component={Simulation} />
 
