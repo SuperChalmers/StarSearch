@@ -3,7 +3,7 @@ import DroneComponent from '../Drone';
 import Starfield from '../Starfield';
 import Sun from '../Sun';
 
-class SpaceEntity extends React.Component<any, any> {
+export default class SpaceEntityComponent extends React.Component<any, any> {
     render() {
         let html;
         
@@ -37,5 +37,3 @@ class SpaceEntity extends React.Component<any, any> {
         return html;
     }
 }
-
-export default SpaceEntity;

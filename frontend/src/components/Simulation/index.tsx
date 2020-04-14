@@ -3,7 +3,7 @@ import { Table, Button } from 'react-bootstrap';
 import history from './../history';
 
 import './index.scss';
-import SpaceEntity from '../SpaceEntity';
+import SpaceEntityComponent from '../SpaceEntity';
 import * as SimulationRequest from '../../requests/Simulation';
 import { convertSimulationResponse } from '../../helper/helpers';
 import { Simulation as SimulationModel } from '../../Models/SimulationModel';
@@ -88,7 +88,7 @@ export default class SimulationComponent extends React.Component<any, any> {
 
                     columns.push(
                         <td key={`${rowIndex}-row-${columnIndex}-column`}>
-                            <SpaceEntity
+                            <SpaceEntityComponent
                                 direction={spaceEntity.direction}
                                 type={spaceEntity.type}
                                 active={spaceEntity.active}
@@ -96,7 +96,7 @@ export default class SimulationComponent extends React.Component<any, any> {
                                 explored={spaceEntity.explored}
                                 known={spaceEntity.known}
                                 fuel={spaceEntity.fuel}>
-                            </SpaceEntity>
+                            </SpaceEntityComponent>
                         </td>
                     )
                 }
