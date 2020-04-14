@@ -1,10 +1,9 @@
 import { Direction, DroneResponse, SpaceElementResponse } from "../Types"
-import { SpaceEntity } from "../Models"
+import { SpaceEntity } from "../Models/SimulationModel"
 
 
 export function convertSimulationResponse(simulationResponse: any): Array<Array<SpaceEntity>> {
     var space: Array<any> = [];
-    var spaceEntity: SpaceEntity;
 
     // Initialize space.
     for(var i = 0; i < simulationResponse.height; i++) {
@@ -27,9 +26,15 @@ export function convertSimulationResponse(simulationResponse: any): Array<Array<
         var y = spaceElement.coordinates.height;
 
         // Only add if it's not a drone since drones are processed first.
-        spaceEntity = new SpaceEntity("0", spaceElement.contents, Direction["none"], "", 0, spaceElement.isKnown, spaceElement.isExplored);
-        if(spaceEntity.type !== "DRONE") {
-            space[y][x] = spaceEntity;
+        // We don't care about barriers
+        if(!spaceElement.drone && spaceElement.contents !== "BARRIER") {
+            var spaceEntity: SpaceEntity = new SpaceEntity("0", spaceElement.contents, Direction["none"], "", 0, spaceElement.isKnown, spaceElement.isExplored);
+            try {
+                space[y][x] = spaceEntity;
+            } catch(e) {
+                console.log(e, spaceEntity)
+            }
+            
         }
     });
     

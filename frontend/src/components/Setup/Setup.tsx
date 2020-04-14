@@ -46,7 +46,7 @@ class Setup extends React.Component<any, any> {
             gallonsPerPass: this.state.gallonsPerPass
         });
 
-        history.push('/Simulation');
+        await history.push('/Simulation', { simulation: createdSimulation });
     }
 
     displayText(props: any) {
