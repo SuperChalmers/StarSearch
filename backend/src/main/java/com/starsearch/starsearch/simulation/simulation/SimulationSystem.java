@@ -63,7 +63,9 @@ public class SimulationSystem {
 
     public void stop() throws Exception {
         String current = System.getProperty("user.dir");
-        writeSimulation(current + SAVE_FOLDER + SAVE_NAME);
+        // Remove '/backend' from the path.
+        String projectRoot = current.substring(0, current.length() - 8);
+        writeSimulation(projectRoot + SAVE_FOLDER + SAVE_NAME);
     }
 
     public SimulationSummary runSimulation(List<DroneAction> mockDroneActionsForUT, boolean turn) {
