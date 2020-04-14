@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const instance = axios.create({
@@ -45,12 +44,8 @@ export async function createSimulation(simulation: CreateSimulationRequest) {
     return response.data;
 }
 
-// Load single simulation
-export async function loadSimulation(simulationId: number) {
-    return await instance.get(`/simulation/${simulationId}`);
-}
-
-// Load list of available simulations
-export async function getSimulations() {
-    return await instance.get(`/simulations`);
+// Load saved simulation
+export async function loadSimulation() {
+    var response = await instance.get(`/simulation`);
+    return response.data;
 }
