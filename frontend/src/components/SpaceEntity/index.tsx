@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DroneComponent from '../Drone';
-import Starfield from '../Starfield';
-import Sun from '../Sun';
+import StarfieldComponent from '../Starfield';
+import SunComponent from '../Sun';
 
 export default class SpaceEntityComponent extends React.Component<any, any> {
     render() {
@@ -10,27 +10,27 @@ export default class SpaceEntityComponent extends React.Component<any, any> {
         // If the object isn't known, don't show it at all.
         if(!this.props.known) {
             html = (
-                <div></div>
+                <div/>
             );
         }
         else if(this.props.type === "DRONE") {
             html = (
-                <DroneComponent direction={this.props.direction} active={this.props.active} fuel={this.props.fuel}></DroneComponent>
+                <DroneComponent direction={this.props.direction} active={this.props.active} fuel={this.props.fuel}/>
             );
         }
         else if(this.props.type === "STARS") {
             html = (
-                <Starfield explored={this.props.explored}></Starfield>
+                <StarfieldComponent explored={this.props.explored}/>
             );
         }
         else if(this.props.type === "EMPTY") {
             html = (
-                <div></div>
+                <div/>
             );
         }
         else if(this.props.type === "SUN") {
             html = (
-                <Sun></Sun>
+                <SunComponent/>
             );
         }
         
