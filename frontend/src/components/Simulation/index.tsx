@@ -117,46 +117,51 @@ export default class SimulationComponent extends React.Component<any, any> {
     render() {
         return (
             <div className="page">
-                <div className="blockTable">
-                    <div id="simulation-table">
-                        <h1>Space Simulation {this.props.simulationNumber}</h1>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div id="simulation-table">
+                            <h1>Space Simulation {this.props.simulationNumber}</h1>
 
-                        <Table bordered className="space-state">
-                            <tbody>
-                                {this.renderSpaceTable()}
-                            </tbody>
-                        </Table>
+                            <Table bordered className="space-state">
+                                <tbody>
+                                    {this.renderSpaceTable()}
+                                </tbody>
+                            </Table>
+                        </div>
                     </div>
                 </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="blockActions">
+                            <div className="colAction">
+                                <Button size="lg" className="button" onClick={() => this.handleNextTurn()} >
+                                    NEXT TURN
+                                </Button>
 
-                <div className="blockActions">
-                    <div className="colAction">
-                        <Button size="lg" className="button" onClick={() => this.handleNextTurn()} >
-                            NEXT TURN
-                        </Button>
+                                <Button size="lg" className="button" onClick={this.handleFastForward} >
+                                    FAST FORWARD
+                                </Button>
 
-                        <Button size="lg" className="button" onClick={this.handleFastForward} >
-                            FAST FORWARD
-                        </Button>
-
-                        <Button size="lg" className="button" onClick={this.handleStopSimulation}>
-                            STOP
-                        </Button>
-                    </div>
-                    <div className="colReport" >
-                        <div className="reportHeader">
-                            {this.displayText("Width : ")}
-                            {this.displayText("Height : ")}
-                            {this.displayText("Safe Squares : ")}
-                            {this.displayText("Explored Squares : ")}
-                            {this.displayText("Turns Taken : ")}
-                        </div>
-                        <div className="reportValues">
-                            {this.displayText(this.state.simulation.width)}
-                            {this.displayText(this.state.simulation.height)}
-                            {this.displayText(this.state.safeSquares)}
-                            {this.displayText(this.state.exploredSquares)}
-                            {this.displayText(this.state.turnsTaken)}
+                                <Button size="lg" className="button" onClick={this.handleStopSimulation}>
+                                    STOP
+                                </Button>
+                            </div>
+                            <div className="colReport" >
+                                <div className="reportHeader">
+                                    {this.displayText("Width : ")}
+                                    {this.displayText("Height : ")}
+                                    {this.displayText("Safe Squares : ")}
+                                    {this.displayText("Explored Squares : ")}
+                                    {this.displayText("Turns Taken : ")}
+                                </div>
+                                <div className="reportValues">
+                                    {this.displayText(this.state.simulation.width)}
+                                    {this.displayText(this.state.simulation.height)}
+                                    {this.displayText(this.state.safeSquares)}
+                                    {this.displayText(this.state.exploredSquares)}
+                                    {this.displayText(this.state.turnsTaken)}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
