@@ -80,12 +80,6 @@ export default class SimulationComponent extends React.Component<any, any> {
                 for (var columnIndex = 0; columnIndex < width; columnIndex++) {
                     var spaceEntity = this.state.simulation.space.get(columnIndex, rowIndex);
 
-                    if (columnIndex === 0) {
-                        columns.push(
-                            <td key={`${rowIndex}-row-${columnIndex}-column-index`}>{Math.abs(rowIndex - height)}</td>
-                        )
-                    }
-
                     columns.push(
                         <td key={`${rowIndex}-row-${columnIndex}-column`}>
                             <SpaceEntityComponent
@@ -100,14 +94,17 @@ export default class SimulationComponent extends React.Component<any, any> {
                         </td>
                     )
                 }
+
+                columns.unshift(<td key={`${rowIndex}-row--1-column-index`}>{Math.abs(rowIndex - height + 1)}</td>);
                 table.push(<tr key={rowIndex + "-row"}>{columns}</tr>)
             }
 
             let indexColumns: any[] = [];
-            for (var columnIndex = 0; columnIndex < width + 1; columnIndex++) {
-                indexColumns.push(<td key={`${rowIndex}-row-${columnIndex}-column-index`}>{columnIndex}</td>);
+            for (var columnIndex = 0; columnIndex < width; columnIndex++) {
+                indexColumns.push(<td key={`-1-row-${columnIndex}-column-index`}>{columnIndex}</td>);
             }
 
+            indexColumns.unshift(<td key={`root`}></td>)
             table.push(<tr key={rowIndex + "-row"}>{indexColumns}</tr>)
         }
 
