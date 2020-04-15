@@ -80,12 +80,6 @@ export default class SimulationComponent extends React.Component<any, any> {
                 for (var columnIndex = 0; columnIndex < width; columnIndex++) {
                     var spaceEntity = this.state.simulation.space.get(columnIndex, rowIndex);
 
-                    if (columnIndex === 0) {
-                        columns.push(
-                            <td key={`${rowIndex}-row-${columnIndex}-column-index`}>{Math.abs(rowIndex - height)}</td>
-                        )
-                    }
-
                     columns.push(
                         <td key={`${rowIndex}-row-${columnIndex}-column`}>
                             <SpaceEntityComponent
@@ -100,14 +94,17 @@ export default class SimulationComponent extends React.Component<any, any> {
                         </td>
                     )
                 }
+
+                columns.unshift(<td key={`${rowIndex}-row--1-column-index`}>{Math.abs(rowIndex - height + 1)}</td>);
                 table.push(<tr key={rowIndex + "-row"}>{columns}</tr>)
             }
 
             let indexColumns: any[] = [];
-            for (var columnIndex = 0; columnIndex < width + 1; columnIndex++) {
-                indexColumns.push(<td key={`${rowIndex}-row-${columnIndex}-column-index`}>{columnIndex}</td>);
+            for (var columnIndex = 0; columnIndex < width; columnIndex++) {
+                indexColumns.push(<td key={`-1-row-${columnIndex}-column-index`}>{columnIndex}</td>);
             }
 
+            indexColumns.unshift(<td key={`root`}></td>)
             table.push(<tr key={rowIndex + "-row"}>{indexColumns}</tr>)
         }
 
@@ -117,46 +114,51 @@ export default class SimulationComponent extends React.Component<any, any> {
     render() {
         return (
             <div className="page">
-                <div className="blockTable">
-                    <div id="simulation-table">
-                        <h1>Space Simulation {this.props.simulationNumber}</h1>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div id="simulation-table">
+                            <h1>Space Simulation {this.props.simulationNumber}</h1>
 
-                        <Table bordered className="space-state">
-                            <tbody>
-                                {this.renderSpaceTable()}
-                            </tbody>
-                        </Table>
+                            <Table bordered className="space-state">
+                                <tbody>
+                                    {this.renderSpaceTable()}
+                                </tbody>
+                            </Table>
+                        </div>
                     </div>
                 </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="blockActions">
+                            <div className="colAction">
+                                <Button size="lg" className="button" onClick={() => this.handleNextTurn()} >
+                                    NEXT TURN
+                                </Button>
 
-                <div className="blockActions">
-                    <div className="colAction">
-                        <Button size="lg" className="button" onClick={() => this.handleNextTurn()} >
-                            NEXT TURN
-                        </Button>
+                                <Button size="lg" className="button" onClick={this.handleFastForward} >
+                                    FAST FORWARD
+                                </Button>
 
-                        <Button size="lg" className="button" onClick={this.handleFastForward} >
-                            FAST FORWARD
-                        </Button>
-
-                        <Button size="lg" className="button" onClick={this.handleStopSimulation}>
-                            STOP
-                        </Button>
-                    </div>
-                    <div className="colReport" >
-                        <div className="reportHeader">
-                            {this.displayText("Width : ")}
-                            {this.displayText("Height : ")}
-                            {this.displayText("Safe Squares : ")}
-                            {this.displayText("Explored Squares : ")}
-                            {this.displayText("Turns Taken : ")}
-                        </div>
-                        <div className="reportValues">
-                            {this.displayText(this.state.simulation.width)}
-                            {this.displayText(this.state.simulation.height)}
-                            {this.displayText(this.state.safeSquares)}
-                            {this.displayText(this.state.exploredSquares)}
-                            {this.displayText(this.state.turnsTaken)}
+                                <Button size="lg" className="button" onClick={this.handleStopSimulation}>
+                                    STOP
+                                </Button>
+                            </div>
+                            <div className="colReport" >
+                                <div className="reportHeader">
+                                    {this.displayText("Width : ")}
+                                    {this.displayText("Height : ")}
+                                    {this.displayText("Safe Squares : ")}
+                                    {this.displayText("Explored Squares : ")}
+                                    {this.displayText("Turns Taken : ")}
+                                </div>
+                                <div className="reportValues">
+                                    {this.displayText(this.state.simulation.width)}
+                                    {this.displayText(this.state.simulation.height)}
+                                    {this.displayText(this.state.safeSquares)}
+                                    {this.displayText(this.state.exploredSquares)}
+                                    {this.displayText(this.state.turnsTaken)}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
