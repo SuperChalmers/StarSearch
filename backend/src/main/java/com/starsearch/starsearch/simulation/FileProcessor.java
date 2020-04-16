@@ -59,6 +59,7 @@ public class FileProcessor {
                     .saveTurn(-1) //old format. No turn to save. 
                     .fileVersion(0) //original file version is defined as 0
                     .suns(suns)
+                    .complete(false)
                     .build();
             }
             int fileVersion = Integer.parseInt(tokens[0]); //if the version does exist, handle it with the new file formatting
@@ -111,6 +112,7 @@ public class FileProcessor {
                     .fileVersion(fileVersion)
                     .saveTurn(saveTurn)
                     .suns(suns)
+                    .complete(false)
                     .build();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

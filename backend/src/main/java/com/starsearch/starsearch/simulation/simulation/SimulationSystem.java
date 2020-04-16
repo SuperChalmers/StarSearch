@@ -46,6 +46,8 @@ public class SimulationSystem {
     @NonNull private List<Coordinates> suns; //Data storage to save location of suns so we don't have to parse space
     @NonNull private Integer fileVersion;
 
+    @NonNull private boolean complete;
+
     private static final String DELIMITER = ",";
     private static final String SAVE_FOLDER = "/SaveSim/";
     private static final String SAVE_NAME = "savesim.csv";
@@ -103,6 +105,7 @@ public class SimulationSystem {
                 chargeDroneIfNecessary(drone);
             }
         } while (simulationIsNotOver() && !turn);
+        complete = true;
         return SimulationSummary.builder()
                 .numberOfCompleteTurnsTaken(turnCounter)
                 .numberOfExploredSafeSquares(spaceExplored)
