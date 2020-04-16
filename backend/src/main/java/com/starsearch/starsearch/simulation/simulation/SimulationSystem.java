@@ -66,8 +66,8 @@ public class SimulationSystem {
     public void stop() throws Exception {
         String current = System.getProperty("user.dir");
         // Remove '/backend' from the path.
-        String projectRoot = current.substring(0, current.length() - 8);
-        writeSimulation(projectRoot + SAVE_FOLDER + SAVE_NAME);
+        // String projectRoot = current.substring(0, current.length() - 8);
+        writeSimulation(current + SAVE_FOLDER + SAVE_NAME);
     }
 
     public SimulationSummary runSimulation(List<DroneAction> mockDroneActionsForUT, boolean turn) {
@@ -135,7 +135,9 @@ public class SimulationSystem {
     }
 
     public boolean droneCloseToSun(Drone drone) {
-        List<Space> neighborSpaces = region.scanAroundCoordinates(drone.getCoordinates(),false);
+        //List<Space> neighborSpaces = region.scanAroundCoordinates(drone.getCoordinates(),false);
+        SimulationAccessor simulationAccessor = new SimulationAccessor(this);
+        List<Space> neighborSpaces = drone.checkAdjacentCoordinates(simulationAccessor);
         for(Space neighborSpace : neighborSpaces){
             if (neighborSpace.getContents().equals(Contents.SUN)) return true;
         }
@@ -146,7 +148,8 @@ public class SimulationSystem {
         int spacesToThrust = getThrustDistance(action.getAction());
         System.out.print(",thrust," + spacesToThrust);
         for (spacesToThrust = getThrustDistance(action.getAction()); spacesToThrust > 0; spacesToThrust--) {
-            MoveResult moveResult = region.moveEntity(action.getCoordinates(), action.getOrientation());
+            //MoveResult moveResult = region.moveEntity(action.getCoordinates(), action.getOrientation());
+            MoveResult moveResult = region.moveEntity(drone.getCoordinates(), drone.getOrientation());
             Space newSpace = moveResult.getSpace();
             if (moveResult.isNewlyExplored()) {
                 spaceExplored++;

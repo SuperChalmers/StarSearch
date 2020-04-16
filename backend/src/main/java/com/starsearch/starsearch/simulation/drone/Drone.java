@@ -103,7 +103,7 @@ public class Drone {
         return droneAction;
     }
 
-    private List<Space> checkAdjacentCoordinates(SimulationAccessor simulationAccessor) {
+    public List<Space> checkAdjacentCoordinates(SimulationAccessor simulationAccessor) {
         List<Space> adjacentSpaces = new ArrayList<>();
         for (Orientation orientation : Orientation.values()) {
             Coordinates toCheck = coordinates.getAdjacentCoordinates(orientation);
