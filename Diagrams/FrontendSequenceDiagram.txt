@@ -1,15 +1,23 @@
 title GUI Sequence Diagram (UML 2.0)
 
-loop !START onClick
+loop !START or RESUME onClick
     HomeComponent->>HomeComponent: render()
 
-    opt click START
+    alt click START
     User-->>HomeComponent: click START
+    else click RESUME
+    User-->>HomeComponent: click RESUME
     end
-
 end
 
-HomeComponent->>SetupComponent: handleStartSetup()
+alt START clicked
+HomeComponent->>ApiRequest: resumeSimulation()
+ApiResponse->>HomeComponent: return saved simulation state
+HomeComponent->>SimulationComponent: resumeSimulation()
+else RESUME clicked
+HomeComponent->>SetupComponent: goToSetup()
+end
+
 
 loop !START onClick
     SetupComponent->>SetupComponent: render()
@@ -49,7 +57,7 @@ loop !STOP onClick
     SimulationComponent->>ApiRequest: handleStopSimulation()
     end
 
-    ApiReponse-->>SimulationComponent: return requested simulation state
+    ApiResponse-->>SimulationComponent: return requested simulation state
     
 end
 
