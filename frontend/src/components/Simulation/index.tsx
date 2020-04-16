@@ -18,7 +18,7 @@ export default class SimulationComponent extends React.Component<any, any> {
 
         this.state = {
             safeSquares: simulationModel.getSafeSquares(),
-            exploredSquares: simulationModel.getExploredSquares(),
+            // exploredSquares: () => { simulationModel.getExploredSquares() },
             turnsTaken: this.props.location.state.simulation.turnsTaken,
             simulation: simulationModel
         };
@@ -155,7 +155,7 @@ export default class SimulationComponent extends React.Component<any, any> {
                                     {this.displayText(this.state.simulation.width)}
                                     {this.displayText(this.state.simulation.height)}
                                     {this.displayText(this.state.safeSquares)}
-                                    {this.displayText(this.state.exploredSquares)}
+                                    {this.displayText(this.state.simulation.getExploredSquares())}
                                     {this.displayText(this.state.turnsTaken)}
                                 </div>
                             </div>
