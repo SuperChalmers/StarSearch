@@ -1,5 +1,9 @@
 title Drone Action Sequence Diagram (UML 2.0)
-Main -> SimulationSystem: startSimulation()
+ApiRequest -> SimulationSystem: startSimulation()
+SimulationSystem ->ApiResponse: SimulationState()
+ApiRequest ->SimulationSystem: fastForward()
+
+alt untilSimulationOver
 SimulationSystem->Drone: pollForAction()
 
 loop i < 8 
@@ -66,5 +70,7 @@ else All Spaces Known and Drone Facing Unsafe Space
     end
 else has enough fuel
     Drone->SimulationSystem:act(DroneAction(pass))
+end
+SimulationSystem ->ApiResponse: SimulationState()
 end
 SimulationSystem -> Main : SimulationSummary
