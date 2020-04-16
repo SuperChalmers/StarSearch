@@ -49,6 +49,7 @@ export class Simulation {
     height: number;
     safeSquares: number;
     exploredSquares: number;
+    complete: boolean;
 
     constructor(id: string, space: Array<Array<SpaceEntity>>) {
         this.id = id;
@@ -59,6 +60,7 @@ export class Simulation {
 
         this.safeSquares = this.getSafeSquares()
         this.exploredSquares = this.getExploredSquares()
+        this.complete = true;
     }
 
     getSafeSquares() {
