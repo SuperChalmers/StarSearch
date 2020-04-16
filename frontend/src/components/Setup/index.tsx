@@ -38,7 +38,7 @@ export default class SetupComponent extends React.Component<any, any> {
             strategy: 0,
             chargeMethod: this.state.chargeMethod,
             chargeRate: this.state.chargeRate,
-            fuel: this.state.fuel,
+            fuel: this.state.fuelCapacity,
             gallonsPerThrust: this.state.gallonsPerThrust,
             gallonsPerSteer: this.state.gallonsPerSteer,
             gallonsPerScan: this.state.gallonsPerScan,
