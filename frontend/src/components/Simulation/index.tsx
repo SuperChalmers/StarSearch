@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Alert } from 'react-bootstrap';
 import history from './../history';
 
 import './index.scss';
@@ -14,7 +14,7 @@ export default class SimulationComponent extends React.Component<any, any> {
         super(props);
 
         var simulationArray = convertSimulationResponse(this.props.location.state.simulation);
-        var simulationModel = new SimulationModel("1", simulationArray);
+        var simulationModel = new SimulationModel(this.props.location.state.simulation.complete, simulationArray);
 
         this.state = {
             safeSquares: simulationModel.getSafeSquares(),
@@ -28,7 +28,7 @@ export default class SimulationComponent extends React.Component<any, any> {
         // Get next state from the server.
         var simulation = await SimulationRequest.nextStep();
         var simulationArray = convertSimulationResponse(simulation);
-        var simulationModel = new SimulationModel("1", simulationArray);
+        var simulationModel = new SimulationModel(simulation.complete, simulationArray);
 
         this.setState({
             turnsTaken: simulation.turnsTaken,
@@ -39,7 +39,7 @@ export default class SimulationComponent extends React.Component<any, any> {
     handleFastForward = async () => {
         var simulation = await SimulationRequest.fastForward();
         var simulationArray = convertSimulationResponse(simulation);
-        var simulationModel = new SimulationModel("1", simulationArray);
+        var simulationModel = new SimulationModel(simulation.complete, simulationArray);
 
         this.setState({
             turnsTaken: simulation.turnsTaken,
@@ -60,6 +60,21 @@ export default class SimulationComponent extends React.Component<any, any> {
             </div>
         )
     }
+
+    AlertDismissibleExample = () => {
+        if (this.state.simulation.complete) {
+            return (
+                <Alert variant="success">
+                <Alert.Heading>Simulation Complete!</Alert.Heading>
+                <p>
+                    <Button variant="link" onClick={() => history.replace('/')}>Run New Simulation</Button>
+                </p>
+                </Alert>
+            );
+        }
+        return <div></div>;
+    }
+    
 
     renderSpaceTable = () => {
         let table: any[] = []
@@ -113,50 +128,56 @@ export default class SimulationComponent extends React.Component<any, any> {
 
     render() {
         return (
-            <div className="page">
+            <div className="container">
                 <div className="row">
                     <div className="col-md-12">
-                        <div id="simulation-table">
-                            <h1>Space Simulation {this.props.simulationNumber}</h1>
-
-                            <Table bordered className="space-state">
-                                <tbody>
-                                    {this.renderSpaceTable()}
-                                </tbody>
-                            </Table>
-                        </div>
+                        <this.AlertDismissibleExample/>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-md-12">
-                        <div className="blockActions">
-                            <div className="colAction">
-                                <Button size="lg" className="button" onClick={() => this.handleNextTurn()} >
-                                    NEXT TURN
-                                </Button>
-
-                                <Button size="lg" className="button" onClick={this.handleFastForward} >
-                                    FAST FORWARD
-                                </Button>
-
-                                <Button size="lg" className="button" onClick={this.handleStopSimulation}>
-                                    STOP
-                                </Button>
+                <div className="page">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div id="simulation-table">
+                                <h1>Space Simulation {this.props.simulationNumber}</h1>
+                                <Table bordered className="space-state">
+                                    <tbody>
+                                        {this.renderSpaceTable()}
+                                    </tbody>
+                                </Table>
                             </div>
-                            <div className="colReport" >
-                                <div className="reportHeader">
-                                    {this.displayText("Width : ")}
-                                    {this.displayText("Height : ")}
-                                    {this.displayText("Safe Squares : ")}
-                                    {this.displayText("Explored Squares : ")}
-                                    {this.displayText("Turns Taken : ")}
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="blockActions">
+                                <div className="colAction">
+                                    <Button size="lg" className="button" onClick={() => this.handleNextTurn()} disabled={this.state.simulation.complete}>
+                                        NEXT TURN
+                                    </Button>
+
+                                    <Button size="lg" className="button" onClick={this.handleFastForward} disabled={this.state.simulation.complete}>
+                                        FAST FORWARD
+                                    </Button>
+
+                                    <Button size="lg" className="button" onClick={this.handleStopSimulation} disabled={this.state.simulation.complete}>
+                                        STOP
+                                    </Button>
                                 </div>
-                                <div className="reportValues">
-                                    {this.displayText(this.state.simulation.width)}
-                                    {this.displayText(this.state.simulation.height)}
-                                    {this.displayText(this.state.safeSquares)}
-                                    {this.displayText(this.state.simulation.getExploredSquares())}
-                                    {this.displayText(this.state.turnsTaken)}
+                                <div className="colReport" >
+                                    <div className="reportHeader">
+                                        {this.displayText("Width : ")}
+                                        {this.displayText("Height : ")}
+                                        {this.displayText("Safe Squares : ")}
+                                        {this.displayText("Explored Squares : ")}
+                                        {this.displayText("Turns Taken : ")}
+                                    </div>
+                                    <div className="reportValues">
+                                        {this.displayText(this.state.simulation.width)}
+                                        {this.displayText(this.state.simulation.height)}
+                                        {this.displayText(this.state.safeSquares)}
+                                        {this.displayText(this.state.simulation.getExploredSquares())}
+                                        {this.displayText(this.state.turnsTaken)}
+                                    </div>
                                 </div>
                             </div>
                         </div>
