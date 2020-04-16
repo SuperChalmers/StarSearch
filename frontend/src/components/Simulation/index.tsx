@@ -14,7 +14,7 @@ export default class SimulationComponent extends React.Component<any, any> {
         super(props);
 
         var simulationArray = convertSimulationResponse(this.props.location.state.simulation);
-        var simulationModel = new SimulationModel("1", simulationArray);
+        var simulationModel = new SimulationModel(this.props.location.state.simulation.complete, simulationArray);
 
         this.state = {
             safeSquares: simulationModel.getSafeSquares(),
@@ -28,7 +28,7 @@ export default class SimulationComponent extends React.Component<any, any> {
         // Get next state from the server.
         var simulation = await SimulationRequest.nextStep();
         var simulationArray = convertSimulationResponse(simulation);
-        var simulationModel = new SimulationModel("1", simulationArray);
+        var simulationModel = new SimulationModel(simulation.complete, simulationArray);
 
         this.setState({
             turnsTaken: simulation.turnsTaken,
@@ -39,7 +39,7 @@ export default class SimulationComponent extends React.Component<any, any> {
     handleFastForward = async () => {
         var simulation = await SimulationRequest.fastForward();
         var simulationArray = convertSimulationResponse(simulation);
-        var simulationModel = new SimulationModel("1", simulationArray);
+        var simulationModel = new SimulationModel(simulation.complete, simulationArray);
 
         this.setState({
             turnsTaken: simulation.turnsTaken,
