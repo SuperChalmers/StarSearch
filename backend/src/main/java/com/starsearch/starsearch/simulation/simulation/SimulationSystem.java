@@ -46,6 +46,7 @@ public class SimulationSystem {
     @NonNull private List<Coordinates> suns; //Data storage to save location of suns so we don't have to parse space
     @NonNull private Integer fileVersion;
 
+    @Getter
     @NonNull private boolean complete;
 
     private static final String DELIMITER = ",";
@@ -104,7 +105,22 @@ public class SimulationSystem {
                 }
                 chargeDroneIfNecessary(drone);
             }
-        } while (simulationIsNotOver() && !turn);
+
+            //Next route handling. Check if simulation over after turn complete. If no, do nothing. If yes, return sim summary
+            if (turn) {
+                if(simulationIsNotOver()) {
+                    return null;
+                } else {
+                    complete = true;
+                    return SimulationSummary.builder()
+                            .numberOfCompleteTurnsTaken(turnCounter)
+                            .numberOfExploredSafeSquares(spaceExplored)
+                            .numberOfSafeSquares(maxSpaceExplorable)
+                            .sizeOfRegion(region.getMaxHeight() * region.getMaxWidth())
+                            .build();
+                }
+            }
+        } while (simulationIsNotOver());
         complete = true;
         return SimulationSummary.builder()
                 .numberOfCompleteTurnsTaken(turnCounter)

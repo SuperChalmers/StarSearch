@@ -18,6 +18,7 @@ public class SimulationStateResponse {
     private final List<Drone> drones;
     private final List<Space> spaceMap;
     private final int turnsTaken;
+    private final boolean complete;
 
     public static SimulationStateResponse createResponseFromSimulationSystem(SimulationSystem simulation) {
         Region region = simulation.getRegion();
@@ -27,6 +28,7 @@ public class SimulationStateResponse {
                 .spaceMap(new ArrayList<>(region.getSpaceMap().values()))
                 .drones(simulation.getDrones())
                 .turnsTaken(simulation.getTurnCounter())
+                .complete(simulation.isComplete())
                 .build();
     }
 }
