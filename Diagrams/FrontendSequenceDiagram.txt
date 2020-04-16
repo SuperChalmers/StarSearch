@@ -1,0 +1,57 @@
+title GUI Sequence Diagram (UML 2.0)
+
+loop !START onClick
+    HomeComponent->>HomeComponent: render()
+
+    opt click START
+    User-->>HomeComponent: click START
+    end
+
+end
+
+HomeComponent->>SetupComponent: handleStartSetup()
+
+loop !START onClick
+    SetupComponent->>SetupComponent: render()
+    
+    alt select dropdown setting
+    User-->>SetupComponent: select dropdown setting
+    else select test scenario file
+    User-->>SetupComponent: select test scenario file
+    else click START
+    User-->>SetupComponent: click START
+    end
+end
+
+SetupComponent->>SimulationComponent: handleStartSimulation()
+
+loop !STOP onClick
+    SimulationComponent->>SimulationComponent: convertSimulationResponse()
+    SimulationComponent->>Simulation: getSafeSquares()
+    Simulation-->>SimulationComponent: return safeSquares
+    SimulationComponent->>Simulation: getExploredSquares()
+    Simulation-->>SimulationComponent: return exploredSquares
+    SimulationComponent->>SimulationComponent: render()
+    
+    alt complete
+    SimulationComponent->>SimulationComponent: handleSimulationEnd()
+
+    else click NEXT TURN
+    User-->>SimulationComponent: click NEXT TURN
+    SimulationComponent->>ApiRequest: handleNextTurn()
+    
+    else click FAST FORWARD
+    User-->>SimulationComponent: click FAST FORWARD
+    SimulationComponent->>ApiRequest: handleFastForward()
+    
+    else click STOP
+    User-->>SimulationComponent: click STOP
+    SimulationComponent->>ApiRequest: handleStopSimulation()
+    end
+
+    ApiReponse-->>SimulationComponent: return requested simulation state
+    
+end
+
+SimulationComponent->>HomeComponent: handleStopSimulation()
+
