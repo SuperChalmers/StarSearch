@@ -26,7 +26,7 @@ class StarsearchApplicationTests {
     private static final int MOCKDEFAULTFUEL = 3;
     private static final int MOCKDEFAULTNUMSUNS = 1;
     private static final int MOCKDEFAULTTURNLIMIT = 2;
-    private static final int MOCKDEFAULTCHARGERATE = 2;
+    private static final int MOCKDEFAULTCHARGERATE = 3;
     private static final int MOCKGALLONSPERTHRUST = 3;
     private static final int MOCKGALLONSPERSTEER = 2;
     private static final int MOCKGALLONSPERSCAN = 1;
@@ -120,6 +120,7 @@ class StarsearchApplicationTests {
         List<DroneAction> mockDroneActions = new ArrayList<>();
         Drone drone0 = simulation.getDrones().get(0);
         Drone drone1 = simulation.getDrones().get(1);
+        System.out.println("xw32 initially drone0 has fuel:"+drone0.getFuel()+", drone1 has fuel:"+drone1.getFuel());
         mockDroneActions.add(DroneAction.builder()
                 .orientation(Orientation.N)
                 .coordinates(drone0.getCoordinates())
@@ -133,17 +134,21 @@ class StarsearchApplicationTests {
 
         // Test drone should be able to get charged if it's next to a sun.
         // the mock region makes the drone0 at (0,0), drone1 at (1,1), and sun at (2,2)
+        System.out.println("Test case 0");
         simulation.runSimulation(mockDroneActions, false);
+        System.out.println("xw32 test0 drone0 has fuel:"+drone0.getFuel()+", drone1 has fuel:"+drone1.getFuel());
         assert drone0.getFuel() == MOCKDEFAULTFUEL;
-        assert drone1.getFuel() == MOCKDEFAULTFUEL+MOCKDEFAULTCHARGERATE*(MOCKDEFAULTTURNLIMIT+1);
+        assert drone1.getFuel() == MOCKDEFAULTFUEL+MOCKDEFAULTCHARGERATE*MOCKDEFAULTTURNLIMIT;
 
         // Test if a drone doesn't have enough fuel initially but it's next to a sun, then eventually it may get enough
         // fuel to fulfill its action.
+        System.out.println("Test case 1");
         simulation = createSimulationSystem();
         drone0 = simulation.getDrones().get(0);
         drone1 = simulation.getDrones().get(1);
         drone0.setFuel(0);
         drone1.setFuel(0);
+        drone1.setOrientation(Orientation.W);
         mockDroneActions.set(1, DroneAction.builder()
                 .orientation(Orientation.W)
                 .coordinates(drone1.getCoordinates())
@@ -151,10 +156,12 @@ class StarsearchApplicationTests {
                 .build());
         simulation.runSimulation(mockDroneActions, false);
         assert drone0.getCoordinates().getWidth()==0 && drone0.getCoordinates().getHeight()==0;
+        System.out.println("drone1 location: drone1.getCoordinates().getWidth()="+drone1.getCoordinates().getWidth()+
+                "drone1.getCoordinates().getHeight()="+drone1.getCoordinates().getHeight());
         assert drone1.getCoordinates().getWidth()==0 && drone1.getCoordinates().getHeight()==1;
-        assert drone1.getFuel() == 1;
+        assert drone1.getFuel() == 0;
         System.out.println("simulation.getTurnCounter()="+simulation.getTurnCounter());
-        assert simulation.getTurnCounter() == 3;
+        assert simulation.getTurnCounter() == 2;
     }
 
     @Test
@@ -163,6 +170,7 @@ class StarsearchApplicationTests {
         List<DroneAction> mockDroneActions = new ArrayList<>();
         Drone drone0 = simulation.getDrones().get(0);
         Drone drone1 = simulation.getDrones().get(1);
+        drone1.setOrientation(Orientation.SW);
         mockDroneActions.add(DroneAction.builder()
                 .orientation(Orientation.N)
                 .coordinates(drone0.getCoordinates())
@@ -179,7 +187,32 @@ class StarsearchApplicationTests {
         // the mock region makes the drone0 at (0,0), drone1 at (1,1), and sun at (2,2)
         assert drone0.getToDelete()==true;
         assert drone1.getToDelete()==true;
-        assert simulation.getTurnCounter() == 2;
+        assert simulation.getTurnCounter() == 1;
+    }
+
+    @Test
+    void FuelTest_SimulationShouldHaltWhenAllDronesRunOutOfFuel() {
+        SimulationSystem simulation = createSimulationSystem();
+        List<DroneAction> mockDroneActions = new ArrayList<>();
+        Drone drone0 = simulation.getDrones().get(0);
+        Drone drone1 = simulation.getDrones().get(1);
+        mockDroneActions.add(DroneAction.builder()
+                .orientation(Orientation.N)
+                .coordinates(drone0.getCoordinates())
+                .action(Action.THRUST3)
+                .build());
+        mockDroneActions.add(DroneAction.builder()
+                .orientation(Orientation.SW)
+                .coordinates(drone1.getCoordinates())
+                .action(Action.THRUST2)
+                .build());
+
+        drone0.setFuel(0);
+        drone1.setFuel(0);
+        drone1.setCoordinates(Coordinates.builder().width(0).height(1).build());
+        simulation.runSimulation(mockDroneActions, false);
+        // the mock region makes the drone0 at (0,0), drone1 at (0,1), and sun at (2,2). Max turn number is 2.
+        assert simulation.getTurnCounter() == 1;
     }
 
     private SimulationSystem createSimulationSystem(){
