@@ -83,8 +83,6 @@ public class SimulationSystem {
                 DroneAction action = mockDroneActionsForUT == null ?
                         drone.act(simulationAccessor) :
                         mockDroneActionsForUT.get(Integer.parseInt(drone.getDroneID().substring(1)));
-                System.out.println("xw32 drone "+drone.getDroneID()+", location=" +
-                        drone.getCoordinates().toString() + ", drone.getToDelete()="+drone.getToDelete()+", drone.getFuel()="+drone.getFuel());
                 if (!checkFuel(action, drone)) {
                     chargeDroneIfNecessary(drone);
                     continue;
@@ -199,7 +197,7 @@ public class SimulationSystem {
         //Simulation is over (this returns true if): no more drones, max turns, all space explored
         turnCounter++;
         boolean allDronesRunOutOfFuel = allDronesRunOutOfFuel();
-        System.out.println("\n turnCounter: " + turnCounter);
+        // System.out.println("\n turnCounter: " + turnCounter);
         return drones.size() > 0 && turnCounter < maxTurns && spaceExplored < maxSpaceExplorable && !allDronesRunOutOfFuel;
     }
 
