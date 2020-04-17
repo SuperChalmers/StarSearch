@@ -89,6 +89,10 @@ export default class SetupComponent extends React.Component<any, any> {
                                 <Dropdown.Item eventKey="1">1</Dropdown.Item>
                                 <Dropdown.Item eventKey="2">2</Dropdown.Item>
                                 <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                                <Dropdown.Item eventKey="4">4</Dropdown.Item>
+                                <Dropdown.Item eventKey="5">5</Dropdown.Item>
+                                <Dropdown.Item eventKey="10">10</Dropdown.Item>
+                                <Dropdown.Item eventKey="100">100</Dropdown.Item>
                             </DropdownButton>
                         </div>
                         <this.displayText text="fuel (gallons)" />
