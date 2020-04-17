@@ -85,6 +85,7 @@ public class FileProcessor {
                 tokens = inputFile.nextLine().split(DELIMITER);
                 Coordinates coordinates = new Coordinates(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
                 region.getSpace(coordinates).setIsExplored(true); //set the explored state to true for that space
+                region.getSpace(coordinates).setContents(Contents.EMPTY);
                 region.getSpace(coordinates).setIsKnown(true); //since it is explored before, it is known.
             }
 
