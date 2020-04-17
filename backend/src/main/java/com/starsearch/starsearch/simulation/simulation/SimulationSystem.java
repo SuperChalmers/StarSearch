@@ -151,9 +151,9 @@ public class SimulationSystem {
     }
 
     public boolean droneCloseToSun(Drone drone) {
-        //List<Space> neighborSpaces = region.scanAroundCoordinates(drone.getCoordinates(),false);
+        List<Space> neighborSpaces = region.scanAroundCoordinates(drone.getCoordinates(),false);
         SimulationAccessor simulationAccessor = new SimulationAccessor(this);
-        List<Space> neighborSpaces = drone.checkAdjacentCoordinates(simulationAccessor);
+        //List<Space> neighborSpaces = drone.checkAdjacentCoordinates(simulationAccessor);
         for(Space neighborSpace : neighborSpaces){
             if (neighborSpace.getContents().equals(Contents.SUN)) return true;
         }
@@ -196,8 +196,16 @@ public class SimulationSystem {
     private Boolean simulationIsNotOver() {
         //Simulation is over (this returns true if): no more drones, max turns, all space explored
         turnCounter++;
-        //System.out.println("\n" + turnCounter);
-        return drones.size() > 0 && turnCounter < maxTurns && spaceExplored < maxSpaceExplorable;
+        boolean allDronesRunOutOfFuel = allDronesRunOutOfFuel();
+        // System.out.println("\n turnCounter: " + turnCounter);
+        return drones.size() > 0 && turnCounter < maxTurns && spaceExplored < maxSpaceExplorable && !allDronesRunOutOfFuel;
+    }
+
+    private Boolean allDronesRunOutOfFuel(){
+        for(Drone drone: drones){
+            if (drone.getFuel()>0) return false;
+        }
+        return true;
     }
 
     private Boolean actionIsThrust(Action action) {

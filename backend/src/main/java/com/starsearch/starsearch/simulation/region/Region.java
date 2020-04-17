@@ -37,21 +37,23 @@ public class Region {
         }
     }
 
-    public List<Space> scanAroundCoordinates(Coordinates coordinates, boolean printScanResult) {
+    public List<Space> scanAroundCoordinates(Coordinates coordinates, boolean isScanAction) {
         List<Space> scanResults = new ArrayList<>();
         StringBuilder scanString = new StringBuilder("\n");
         //Parse through orientation enum (Starts at N and goes CW). Get space at each space adjacent to drone Space
         for (Orientation orientation : Orientation.values()) {
             Space space = getSpace(coordinates.getAdjacentCoordinates(orientation));
             scanResults.add(space);
-            space.setIsKnown(true);
-            if (space.getDrone()) {
-                scanString.append("drone,");
-            } else {
-                scanString.append(space.getContents() + ",");
+            if (isScanAction) {
+                space.setIsKnown(true);
+                if (space.getDrone()) {
+                    scanString.append("drone,");
+                } else {
+                    scanString.append(space.getContents() + ",");
+                }
             }
         }
-        if (printScanResult) System.out.println(scanString.toString().substring(0, scanString.length() - 1).toLowerCase());
+        if (isScanAction) System.out.println(scanString.toString().substring(0, scanString.length() - 1).toLowerCase());
         return scanResults;
     }
 
