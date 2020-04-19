@@ -11,27 +11,27 @@ loop !START or RESUME onClick
 end
 
 alt START clicked
-HomeComponent->>ApiRequest: resumeSimulation()
-ApiResponse->>HomeComponent: return saved simulation state
-HomeComponent->>SimulationComponent: resumeSimulation()
-else RESUME clicked
-HomeComponent->>SetupComponent: goToSetup()
-end
-
-
-loop !START onClick
-    SetupComponent->>SetupComponent: render()
+    HomeComponent->>SetupComponent: goToSetup()
     
-    alt select dropdown setting
-    User-->>SetupComponent: select dropdown setting
-    else select test scenario file
-    User-->>SetupComponent: select test scenario file
-    else click START
-    User-->>SetupComponent: click START
+    loop !START onClick
+        SetupComponent->>SetupComponent: render()
+        
+        alt select dropdown setting
+        User-->>SetupComponent: select dropdown setting
+        else select test scenario file
+        User-->>SetupComponent: select test scenario file
+        else click START
+        User-->>SetupComponent: click START
+        end
     end
+SetupComponent->>SimulationComponent: handleStartSimulation()
+    
+else RESUME clicked
+    HomeComponent->>ApiRequest: resumeSimulation()
+    ApiResponse->>HomeComponent: return saved simulation state
+    HomeComponent->>SimulationComponent: resumeSimulation()
 end
 
-SetupComponent->>SimulationComponent: handleStartSimulation()
 
 loop !STOP onClick
     SimulationComponent->>SimulationComponent: convertSimulationResponse()
